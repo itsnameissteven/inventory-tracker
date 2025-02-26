@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+   <changeSet id="1" author="sm">
+      <sql>CREATE EXTENSION IF NOT EXISTS "uuid-ossp";</sql>
+      <!-- Items Table -->
+      <createTable tableName="items">
+         <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+            <constraints primaryKey="true"/>
+         </column>
+          <column name="created_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="name" type="varchar(50)">
+            <constraints nullable="false"/>
+         </column>
+         <column name="description" type="varchar(255)"/>
+      </createTable>
+      <!-- Images Table -->
+      <createTable tableName="images">
+         <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+            <constraints primaryKey="true"/>
+         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="url" type="varchar(255)">
+            <constraints nullable="false"/>
+         </column>
+         <column name="item_id" type="uuid">
+            <constraints nullable="false"/>
+         </column>
+         <constraints foreignKeyConstraintName="fk_images_item_id" foreignKeyName="item_id" references="items(id)"/>
+      </createTable>
+      <!-- Categories Table -->
+      <createTable tableName="categories">
+         <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+            <constraints primaryKey="true"/>
+         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="name" type="varchar(50)">
+            <constraints nullable="false"/>
+         </column>
+      </createTable>
+   </changeSet>
+</databaseChangeLog>
