@@ -39,8 +39,12 @@
          <column name="item_id" type="uuid">
             <constraints nullable="false"/>
          </column>
-         <constraints foreignKeyConstraintName="fk_images_item_id" foreignKeyName="item_id" references="items(id)"/>
       </createTable>
+      <addForeignKeyConstraint baseTableName="images"
+                     baseColumnNames="item_id"
+                     constraintName="fk_images_item_id"
+                     referencedTableName="items"
+                     referencedColumnNames="id"/>
       <!-- Categories Table -->
       <createTable tableName="categories">
          <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
@@ -56,5 +60,107 @@
             <constraints nullable="false"/>
          </column>
       </createTable>
+      <!-- Variations Table -->
+      <createTable tableName="variations">
+         <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+            <constraints primaryKey="true"/>
+         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="name" type="varchar(50)">
+            <constraints nullable="false" unique="true"/>
+         </column>
+         <column name="display_name" type="varchar(50)"/>
+      </createTable>
+      <!-- Attributes Table -->
+      <createTable tableName="attributes">
+         <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+            <constraints primaryKey="true"/>
+         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="name" type="varchar(50)">
+            <constraints nullable="false" unique="true"/>
+         </column>
+      </createTable>
+      <!-- Items_Categories Table -->
+      <createTable tableName="item_categories">
+         <column name="item_id" type="uuid">
+            <constraints nullable="false"/>
+         </column>
+         <column name="category_id" type="uuid">
+            <constraints nullable="false"/>  
+         </column>
+      </createTable>
+         <addPrimaryKey constraintName="pk_item_categories"
+                        tableName="item_categories"
+                        columnNames="item_id, category_id"/>
+         <addForeignKeyConstraint constraintName="fk_item_categories_item_id"
+                        baseTableName="item_categories"
+                        baseColumnNames="item_id"
+                        referencedTableName="items"
+                        referencedColumnNames="id"/>
+
+         <addForeignKeyConstraint constraintName="fk_item_categories_category_id"
+                                 baseTableName="item_categories"
+                                 baseColumnNames="category_id"
+                                 referencedTableName="categories"
+                                 referencedColumnNames="id"/>
+      <!-- Item_SKU Table -->
+      <createTable tableName="item_skus">
+         <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+            <constraints primaryKey="true"/>
+         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
+            <constraints nullable="false"/>
+         </column>
+         <column name="price" type="decimal(10,2)">
+            <constraints nullable="false"/>
+         </column>
+         <column name="stock" type="integer">
+            <constraints nullable="false"/>
+         </column>
+         <column name="item_id" type="uuid">
+            <constraints nullable="false"/>
+         </column>
+         <column name="variation_id" type="uuid">
+            <constraints nullable="true"/>
+         </column>
+         <column name="attribute_id" type="uuid">
+            <constraints nullable="true"/>
+         </column>
+      </createTable>
+      <addForeignKeyConstraint constraintName="fk_item_skus_item_id"
+                     baseTableName="item_skus"
+                     baseColumnNames="item_id"
+                     referencedTableName="items"
+                     referencedColumnNames="id"/>
+      <addForeignKeyConstraint constraintName="fk_item_skus_variation_id"
+                     baseTableName="item_skus"
+                     baseColumnNames="variation_id"
+                     referencedTableName="variations"
+                     referencedColumnNames="id"/>
+      <addForeignKeyConstraint constraintName="fk_item_skus_attribute_id"
+                     baseTableName="item_skus"
+                     baseColumnNames="attribute_id"
+                     referencedTableName="attributes"
+                     referencedColumnNames="id"/>
+
+      <!-- Add unique identifier  -->
+      <sql>
+        CREATE UNIQUE INDEX idx_uc_items_sku 
+        ON item_skus (item_id, COALESCE(variation_id, '00000000-0000-0000-0000-000000000000'), COALESCE(attribute_id, '00000000-0000-0000-0000-000000000000'));
+      </sql>
    </changeSet>
 </databaseChangeLog>
