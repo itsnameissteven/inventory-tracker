@@ -1,6 +1,6 @@
 package com.service.controller;
 import java.util.List;
-import com.service.model.Category;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.service.repository.CategoriesRepository;
-
+import com.service.model.Variation;
+import com.service.repository.VariationRepository;
 
 @RestController
-@RequestMapping("/categories")
-public class CategoriesController {
+@RequestMapping("/variations")
+public class VariationController {
   @Autowired
-  private CategoriesRepository categoriesRepository;
+  private VariationRepository variationRepository;
 
   @GetMapping
-  public List<Category> getCategories(@RequestParam String param) {
-      return categoriesRepository.findAll();
+  public List<Variation> getVariations(@RequestParam String param) {
+      return variationRepository.findAll();
   }
 
   @PostMapping("path")
-  public Category addItem(@RequestBody Category entity) {
-    return categoriesRepository.save(entity);
+  public Variation addItem(@RequestBody Variation entity) {
+    return variationRepository.save(entity);
   }
   
 }

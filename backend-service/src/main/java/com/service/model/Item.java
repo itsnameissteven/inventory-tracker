@@ -31,6 +31,13 @@ public class Item {
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
   private List<Category> categories;  
+  @ManyToMany
+    @JoinTable(
+        name = "item_variations",
+        joinColumns = @JoinColumn(name = "item_id"),
+        inverseJoinColumns = @JoinColumn(name = "variation_id")
+    )
+  private List<Variation> variations;
 
   public Item() {
   }
@@ -56,6 +63,9 @@ public class Item {
   }
   public List<Category> getCategories() {
     return categories;
+  }
+  public List<Variation> getVariations() {
+    return variations;
   }
   public void setId(UUID id) {
     this.id = id;
