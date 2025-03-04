@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import com.service.model.Category;
 
 @Repository
-public interface CategoriesRepository extends JpaRepository<Category, UUID> {
+public interface CategoryRepository extends JpaRepository<Category, UUID> {
 }
