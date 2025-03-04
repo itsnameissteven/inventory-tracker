@@ -21,13 +21,22 @@ public class Item extends BaseModel {
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
   private List<Category> categories;  
-  // @ManyToMany
-  //   @JoinTable(
-  //       name = "item_variations",
-  //       joinColumns = @JoinColumn(name = "item_id"),
-  //       inverseJoinColumns = @JoinColumn(name = "variation_id")
-  //   )
-  // private List<Variation> variations;
+  @OneToMany(mappedBy = "item_id")
+  private List<ItemSku> skus; 
+  @ManyToMany
+    @JoinTable(
+        name = "item_skus",
+        joinColumns = @JoinColumn(name = "item_id"),
+        inverseJoinColumns = @JoinColumn(name = "variation_id")
+    )
+  private List<Variation> variations;
+  @ManyToMany
+    @JoinTable(
+        name = "item_skus",
+        joinColumns = @JoinColumn(name = "item_id"),
+        inverseJoinColumns = @JoinColumn(name = "attribute_id")
+    )
+  private List<Attribute> attributes;
 
   public Item() {
   }
@@ -44,9 +53,15 @@ public class Item extends BaseModel {
   public List<Category> getCategories() {
     return categories;
   }
-  // public List<Variation> getVariations() {
-  //   return variations;
-  // }
+  public List<ItemSku> getSkus() {
+    return skus;
+  }
+  public List<Variation> getVariations() {
+    return variations;
+  }
+  public List<Attribute> getAttributes() {
+    return attributes;
+  }
   public void setName(String name) {
     this.name = name;
   }
