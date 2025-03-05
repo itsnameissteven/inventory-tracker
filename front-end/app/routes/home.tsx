@@ -1,6 +1,8 @@
 import type { Route } from './+types/home';
 import { Welcome } from '../welcome/welcome';
 import { getItems } from 'server/getItems';
+import { Layout } from '~/components/Layout';
+import { DataTable } from '~/components/DataTable';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,5 +17,9 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  return <Welcome data={loaderData.data} />;
+  return (
+    <Layout>
+      <DataTable title="Items" headers={[]} data={loaderData.data} />
+    </Layout>
+  );
 }
