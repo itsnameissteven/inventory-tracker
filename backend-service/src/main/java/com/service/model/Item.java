@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 @Table(name = "items")
 public class Item extends BaseModel {
   private String name;
+  private String description;
   @OneToMany(mappedBy = "item_id")
   private List<Image> images;
   @ManyToMany
@@ -46,6 +47,9 @@ public class Item extends BaseModel {
   }
   public String getName() {
     return name;
+  }
+  public String getDescription() {
+    return description;
   }
   public List<Image> getImages() {
     return images;
