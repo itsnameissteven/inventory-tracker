@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import {
   Table,
   TableBody,
@@ -10,30 +11,36 @@ import {
 
 type DataTableProps<K extends object> = {
   title: string;
-  headers: { title: string; accessKey: keyof K }[];
+  columns: {
+    header: string;
+    accessKey: keyof K;
+    render?: (data: K) => ReactNode;
+  }[];
   data: K[];
 };
 
 export const DataTable = <K extends object>({
   title,
-  headers,
+  columns,
   data,
 }: DataTableProps<K>) => (
-  <Table>
+  <Table className="rounded-md border">
     <TableCaption>{title}</TableCaption>
-    <TableHead>
+    <TableHeader>
       <TableRow>
-        {headers.map((header) => (
-          <TableHeader key={header.title}>{header.title}</TableHeader>
+        {columns.map((col) => (
+          <TableHead key={col.header} className="font-medium">
+            {col.header}
+          </TableHead>
         ))}
       </TableRow>
-    </TableHead>
+    </TableHeader>
     <TableBody>
-      {data.map((row, i) => (
+      {data.map((d, i) => (
         <TableRow key={'row-' + i}>
-          {headers.map((header, i) => (
+          {columns.map((col, i) => (
             <TableCell key={'cell-' + i}>
-              {String(row[header.accessKey])}
+              {col?.render ? col.render(d) : (d[col.accessKey] as ReactNode)}
             </TableCell>
           ))}
         </TableRow>
