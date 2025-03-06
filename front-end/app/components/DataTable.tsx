@@ -29,7 +29,7 @@ export const DataTable = <K extends object>({
     <TableHeader>
       <TableRow>
         {columns.map((col) => (
-          <TableHead key={col.header} className="font-medium">
+          <TableHead key={col.header} className="font-bold">
             {col.header}
           </TableHead>
         ))}
@@ -39,7 +39,10 @@ export const DataTable = <K extends object>({
       {data.map((d, i) => (
         <TableRow key={'row-' + i}>
           {columns.map((col, i) => (
-            <TableCell key={'cell-' + i}>
+            <TableCell
+              key={'cell-' + i}
+              className="max-w-30 text-overflow: ellipsis truncate"
+            >
               {col?.render ? col.render(d) : (d[col.accessKey] as ReactNode)}
             </TableCell>
           ))}

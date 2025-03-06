@@ -3,6 +3,9 @@ package com.service.model;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -11,6 +14,15 @@ public class ItemSku extends BaseModel{
   private Double price;
   private Number stock;
   private UUID item_id;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "variation_id", referencedColumnName = "id", insertable = false, updatable = false)
+  private Variation variation;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "attribute_id", referencedColumnName = "id", insertable = false, updatable = false)
+  private Attribute attribute;
+
   private UUID variation_id;
   private UUID attribute_id;
 
@@ -38,6 +50,10 @@ public class ItemSku extends BaseModel{
   public UUID getAttributeId() {
     return attribute_id;
   }
+  public Variation getVariation() {
+    return variation;
+  }
+  
   public void setPrice(Double price) {
     this.price = price;
   }

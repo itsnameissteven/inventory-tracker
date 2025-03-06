@@ -1,10 +1,9 @@
-import type { Route } from './+types/home';
-import { getItems } from 'server/getItems';
+import type { Route } from './+types/item';
 import { Layout } from '~/components/Layout';
+import { postItem } from 'server/postItem';
+import { getItemById } from 'server/getItemById';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
-import { ItemForm } from '~/components/ItemForm';
-import { postItem } from 'server/postItem';
 import { formatDate } from '~/utils/formatDate';
 
 export function meta({}: Route.MetaArgs) {
@@ -15,38 +14,41 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getItems();
+  let { data } = await getItemById(params.id);
   return { data };
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export async function action({ request, params }: Route.ActionArgs) {
+  const formData = await request.formData();
+  await postItem({
+    name: formData.get('name') as string,
+    description: formData.get('description') as string,
+  });
+  return null;
+}
+
+export default function item({ loaderData }: Route.ComponentProps) {
+  const { data } = loaderData;
+  console.log(data);
   return (
     <Layout>
+      <h1 className="text-5xl font-bold">{data.name}</h1>
+      <p>{data.description}</p>
       <DataTable
-        title="Items"
+        title="Items SKUs"
         columns={[
-          { header: 'Name', accessKey: 'name' },
-          { header: 'Description', accessKey: 'description' },
           {
-            header: 'Skus',
-            accessKey: 'skus',
-            render: (data) => data.skus.length.toString(),
+            header: 'Variation',
+            accessKey: 'variation',
+            render: (data) => data.variation?.name || 'N/A',
           },
           {
-            header: 'Variations',
-            accessKey: 'variations',
-            render: (data) => data.variations.length.toString(),
+            header: 'Attribute',
+            accessKey: 'attribute',
+            render: (data) => data.attribute?.name || 'N/A',
           },
-          {
-            header: 'Attributes',
-            accessKey: 'attributes',
-            render: (data) => data.attributes.length.toString(),
-          },
-          {
-            header: 'Images',
-            accessKey: 'images',
-            render: (data) => data.images.length.toString(),
-          },
+          { header: 'Price', accessKey: 'price' },
+          { header: 'Stock', accessKey: 'stock' },
           {
             header: 'Created At',
             accessKey: 'createdAt',
@@ -63,9 +65,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             render: (data) => <TableActionButton itemId={data.id} />,
           },
         ]}
-        data={loaderData.data}
+        data={data.skus}
       />
-      <ItemForm />
     </Layout>
   );
 }
