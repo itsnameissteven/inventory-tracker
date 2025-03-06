@@ -9,6 +9,7 @@ import {
 
 import type { Route } from './+types/root';
 import './app.css';
+import { postItem } from 'server/postItem';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -22,6 +23,14 @@ export const links: Route.LinksFunction = () => [
     href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
   },
 ];
+
+export async function action({ request, params }: Route.ActionArgs) {
+  const formData = await request.formData();
+  postItem({
+    name: formData.get('name') as string,
+    description: formData.get('description') as string,
+  });
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -1,7 +1,11 @@
 package com.service.model;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,16 +16,21 @@ public abstract class BaseModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private UUID id;
-  private Date created_at;
-  private Date updated_at;
+  @CreationTimestamp
+  @Column(name = "created_at", updatable = false)
+  private LocalDateTime created_at;
+
+  @UpdateTimestamp
+  @Column(name = "updated_at")
+  private LocalDateTime updated_at;
 
   public UUID getId() {
     return id;
   }
-  public Date getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return created_at;
   }
-  public Date getUpdatedAt() {
+  public LocalDateTime getUpdatedAt() {
     return updated_at;
   }
 
@@ -30,6 +39,6 @@ public abstract class BaseModel {
   }
 
   public void setUpdatedAt() {
-    this.updated_at = new Date(System.currentTimeMillis());
+    this.updated_at = LocalDateTime.now();
   }
 }

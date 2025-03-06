@@ -3,6 +3,7 @@ import { getItems } from 'server/getItems';
 import { Layout } from '~/components/Layout';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
+import { ItemForm } from '~/components/ItemForm';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,6 +15,10 @@ export function meta({}: Route.MetaArgs) {
 export async function loader({ params }: Route.LoaderArgs) {
   let { data } = await getItems();
   return { data };
+}
+
+export async function action({ request, params }: Route.ActionArgs) {
+  console.log(request, params);
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
@@ -50,6 +55,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         ]}
         data={loaderData.data}
       />
+      <ItemForm />
     </Layout>
   );
 }
