@@ -11,28 +11,23 @@
          <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
             <constraints primaryKey="true"/>
          </column>
-          <column name="created_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
-         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+         <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
          <column name="name" type="varchar(50)">
             <constraints nullable="false"/>
          </column>
          <column name="description" type="varchar(255)"/>
       </createTable>
+      <addUniqueConstraint constraintName="uk_items_name"
+                          tableName="items"
+                          columnNames="name"/>
       <!-- Images Table -->
       <createTable tableName="images">
          <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
             <constraints primaryKey="true"/>
          </column>
-         <column name="created_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
-         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+         <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
          <column name="url" type="varchar(255)">
             <constraints nullable="false"/>
          </column>
@@ -50,12 +45,8 @@
          <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
             <constraints primaryKey="true"/>
          </column>
-         <column name="created_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
-         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+         <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
          <column name="name" type="varchar(50)">
             <constraints nullable="false"/>
          </column>
@@ -65,12 +56,8 @@
          <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
             <constraints primaryKey="true"/>
          </column>
-         <column name="created_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
-         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+         <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
          <column name="name" type="varchar(50)">
             <constraints nullable="false" unique="true"/>
          </column>
@@ -81,12 +68,8 @@
          <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
             <constraints primaryKey="true"/>
          </column>
-         <column name="created_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
-         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+         <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
          <column name="name" type="varchar(50)">
             <constraints nullable="false" unique="true"/>
          </column>
@@ -119,12 +102,8 @@
          <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
             <constraints primaryKey="true"/>
          </column>
-         <column name="created_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
-         <column name="updated_at" type="timestamp" defaultValueComputed="now()">
-            <constraints nullable="false"/>
-         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
+         <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
          <column name="price" type="decimal(10,2)">
             <constraints nullable="false"/>
          </column>
