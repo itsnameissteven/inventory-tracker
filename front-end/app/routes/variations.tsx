@@ -7,6 +7,7 @@ import { TableActionButton } from '~/components/TableActionButton';
 import { formatDate } from '~/utils/formatDate';
 import { getVariations } from 'server/getVariations';
 import { VariationForm } from '~/components/VariationForm';
+import { postVariation } from 'server/postVariation';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -22,10 +23,10 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export async function action({ request, params }: Route.ActionArgs) {
   const formData = await request.formData();
-  // await postItem({
-  //   name: formData.get('name') as string,
-  //   description: formData.get('description') as string,
-  // });
+  await postVariation({
+    name: formData.get('name') as string,
+    displayName: formData.get('displayName') as string,
+  });
   return null;
 }
 
@@ -38,21 +39,14 @@ export default function variations({ loaderData }: Route.ComponentProps) {
         <p>There are no variations, start adding new variations below</p>
       )}
       <VariationForm />
-      {/* <DataTable
-        title="Items SKUs"
+      <DataTable
+        title="Variations"
         columns={[
           {
-            header: 'Variation',
-            accessKey: 'variation',
-            render: (data) => data.variation?.name || 'N/A',
+            header: 'Name',
+            accessKey: 'name',
           },
-          {
-            header: 'Attribute',
-            accessKey: 'attribute',
-            render: (data) => data.attribute?.name || 'N/A',
-          },
-          { header: 'Price', accessKey: 'price' },
-          { header: 'Stock', accessKey: 'stock' },
+          { header: 'Display Name', accessKey: 'displayName' },
           {
             header: 'Created At',
             accessKey: 'createdAt',
@@ -69,8 +63,8 @@ export default function variations({ loaderData }: Route.ComponentProps) {
             render: (data) => <TableActionButton itemId={data.id} />,
           },
         ]}
-        data={data.skus}
-      /> */}
+        data={data}
+      />
     </Layout>
   );
 }
