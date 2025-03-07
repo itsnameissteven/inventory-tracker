@@ -51,27 +51,33 @@ export const ItemForm = () => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {fields.map((value) => (
-          <FormField
-            key={value.name}
-            control={form.control}
-            name={value.name}
-            render={({ field: controllerField }) => (
-              <FormItem>
-                <FormLabel>{value.label}</FormLabel>
-                <FormControl>
-                  <Input placeholder={value.placeHolder} {...controllerField} />
-                </FormControl>
-                <FormDescription>{value.description}</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <div className="max-w-md mx-auto border p-8 rounded-md">
+      <h2 className="text-xl mb-5">Add a new item</h2>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          {fields.map((value) => (
+            <FormField
+              key={value.name}
+              control={form.control}
+              name={value.name}
+              render={({ field: controllerField }) => (
+                <FormItem>
+                  <FormLabel>{value.label}</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder={value.placeHolder}
+                      {...controllerField}
+                    />
+                  </FormControl>
+                  <FormDescription>{value.description}</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
+    </div>
   );
 };

@@ -2,7 +2,7 @@
 
 @plugin "tailwindcss-animate";
 
-/* @custom-variant dark (&:is(.dark *)); */
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif,
@@ -18,7 +18,7 @@ body {
   }
 }
 
-:root[class~='dark'] {
+:root {
   --background: oklch(0 0 0);
   --foreground: oklch(0.147 0.004 49.25);
   --card: oklch(1 0 0);

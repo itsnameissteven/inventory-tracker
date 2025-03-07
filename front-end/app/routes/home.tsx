@@ -22,6 +22,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <Layout>
+      <h1 className="text-4xl font-bold mb-10">Welcome</h1>
       <DataTable
         title="Items"
         columns={[
