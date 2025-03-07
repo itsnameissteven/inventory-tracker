@@ -2,10 +2,21 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
 } from 'react-router';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from '@/components/ui/navigation-menu';
 
 import type { Route } from './+types/root';
 import './app.css';
@@ -26,22 +37,43 @@ export const links: Route.LinksFunction = () => [
 
 export async function action({ request, params }: Route.ActionArgs) {
   const formData = await request.formData();
-  postItem({
+  await postItem({
     name: formData.get('name') as string,
     description: formData.get('description') as string,
   });
+  return null;
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const navItems = [
+    { name: 'Home', to: '/' },
+    { name: 'Variations', to: '/variations' },
+    { name: 'Attributes', to: '/attributes' },
+  ];
   return (
-    <html lang="en">
+    <html lang="en" className=" dark h-full">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="dark h-full">
+        <NavigationMenu className="pt-4 pr-4 pl-4">
+          {navItems.map((item) => (
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? 'underline underline-offset-8 pl-4 pr-4'
+                  : 'pl-4 pr-4'
+              }
+              key={item.to}
+              to={item.to}
+            >
+              {item.name}
+            </NavLink>
+          ))}
+        </NavigationMenu>
         {children}
         <ScrollRestoration />
         <Scripts />

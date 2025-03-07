@@ -1,5 +1,4 @@
-type Variation = {
-  id: string;
+type Variation = BaseData & {
   name: string;
   displayName: string;
 };

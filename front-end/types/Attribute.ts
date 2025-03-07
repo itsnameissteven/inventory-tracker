@@ -1,4 +1,3 @@
-type Attribute = {
-  id: string;
+type Attribute = BaseData & {
   name: string;
 };

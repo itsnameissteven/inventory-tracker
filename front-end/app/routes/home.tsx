@@ -4,6 +4,8 @@ import { Layout } from '~/components/Layout';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
 import { ItemForm } from '~/components/ItemForm';
+import { postItem } from 'server/postItem';
+import { formatDate } from '~/utils/formatDate';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,13 +19,10 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { data };
 }
 
-export async function action({ request, params }: Route.ActionArgs) {
-  console.log(request, params);
-}
-
 export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <Layout>
+      <h1 className="text-4xl font-bold mb-10">Welcome</h1>
       <DataTable
         title="Items"
         columns={[
@@ -49,9 +48,21 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             accessKey: 'images',
             render: (data) => data.images.length.toString(),
           },
-          { header: 'Created At', accessKey: 'createdAt' },
-          { header: 'Updated At', accessKey: 'updatedAt' },
-          { header: '', accessKey: 'id', render: () => <TableActionButton /> },
+          {
+            header: 'Created At',
+            accessKey: 'createdAt',
+            render: (data) => formatDate(data.createdAt),
+          },
+          {
+            header: 'Updated At',
+            accessKey: 'updatedAt',
+            render: (data) => formatDate(data.updatedAt),
+          },
+          {
+            header: '',
+            accessKey: 'id',
+            render: (data) => <TableActionButton itemId={data.id} />,
+          },
         ]}
         data={loaderData.data}
       />
