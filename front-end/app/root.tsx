@@ -62,15 +62,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <NavigationMenu className="pt-4 pr-4 pl-4">
           {navItems.map((item) => (
             <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? 'underline underline-offset-8 pl-4 pr-4'
+                  : 'pl-4 pr-4'
+              }
               key={item.to}
               to={item.to}
-              className={({ isActive }) =>
-                isActive ? 'underline underline-offset-8' : ''
-              }
             >
-              <NavigationMenuLink className="pl-4 pr-4">
-                {item.name}
-              </NavigationMenuLink>
+              {item.name}
             </NavLink>
           ))}
         </NavigationMenu>
