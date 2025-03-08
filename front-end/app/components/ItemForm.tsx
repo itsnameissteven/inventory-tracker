@@ -25,9 +25,9 @@ export const ItemForm = () => {
     },
   ];
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    submit(values, { method: 'POST', action: '/' });
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await submit(values, { method: 'POST', action: '/' });
+  };
 
   return (
     <DatabaseForm

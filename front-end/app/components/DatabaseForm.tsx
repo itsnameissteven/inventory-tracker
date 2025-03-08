@@ -14,33 +14,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Field } from 'types/Field';
 
-// import { useFetcher, useSubmit } from 'react-router';
-
-// const formSchema = z.object({
-//   name: z.string().min(2).max(50),
-//   description: z.string().max(255).optional(),
-// });
-
-// const fields = [
-//   {
-//     name: 'name',
-//     label: 'Name',
-//     placeHolder: 'Item name',
-//     description: 'This is the item name',
-//   },
-//   {
-//     name: 'description',
-//     label: 'Description',
-//     placeHolder: 'Item description',
-//     description: 'This is the item description',
-//   },
-// ] as const;
-
 type DatabaseFormProps<T extends z.ZodType<any, any>> = {
   formSchema: T;
   defaultValues: DefaultValues<z.TypeOf<T>> | undefined;
   fields: Field<T>[];
-  onSubmit(values: z.infer<T>): void;
+  onSubmit(values: z.infer<T>): Promise<void>;
 };
 export const DatabaseForm = <T extends z.ZodType<any, any>>({
   formSchema,
@@ -48,23 +26,26 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
   fields,
   onSubmit,
 }: DatabaseFormProps<T>) => {
-  // const submit = useSubmit();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
 
-  // function onSubmit(values: z.infer<typeof formSchema>) {
-  //   console.log(values);
-  //   submit(values, { method: 'POST', action: '/' });
-  //   return;
-  // }
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await onSubmit(values);
+      form.reset(defaultValues);
+    } catch (e) {
+      console.log('Error submitting form', e);
+      return { success: false };
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto border p-8 rounded-md">
       <h2 className="text-xl mb-5">Add a new item</h2>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
           {fields.map((value) => (
             <FormField
               key={value.name}

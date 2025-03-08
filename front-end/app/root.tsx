@@ -35,13 +35,17 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export async function action({ request, params }: Route.ActionArgs) {
+export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  await postItem({
-    name: formData.get('name') as string,
-    description: formData.get('description') as string,
-  });
-  return null;
+  try {
+    await postItem({
+      name: formData.get('name') as string,
+      description: formData.get('description') as string,
+    });
+    return { success: true };
+  } catch {
+    return { success: false };
+  }
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
