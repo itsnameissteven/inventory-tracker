@@ -1,13 +1,11 @@
 import type { Route } from './+types/variations';
 import { Layout } from '~/components/Layout';
-import { postItem } from 'server/postItem';
-import { getItemById } from 'server/getItemById';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
 import { formatDate } from '~/utils/formatDate';
-import { getVariations } from 'server/getVariations';
 import { VariationForm } from '~/components/VariationForm';
 import { postVariation } from 'server/postVariation';
+import { getAll } from 'server/getAll';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,7 +15,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getVariations();
+  let { data } = await getAll<Variation>('variations');
   return { data };
 }
 

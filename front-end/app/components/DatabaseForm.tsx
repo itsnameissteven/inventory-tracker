@@ -15,12 +15,14 @@ import { Input } from '@/components/ui/input';
 import { Field } from 'types/Field';
 
 type DatabaseFormProps<T extends z.ZodType<any, any>> = {
+  title: string;
   formSchema: T;
   defaultValues: DefaultValues<z.TypeOf<T>> | undefined;
   fields: Field<T>[];
   onSubmit(values: z.infer<T>): Promise<void>;
 };
 export const DatabaseForm = <T extends z.ZodType<any, any>>({
+  title,
   formSchema,
   defaultValues,
   fields,
@@ -43,7 +45,7 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
 
   return (
     <div className="max-w-md mx-auto border p-8 rounded-md">
-      <h2 className="text-xl mb-5">Add a new item</h2>
+      <h2 className="text-xl mb-5">{title}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
           {fields.map((value) => (

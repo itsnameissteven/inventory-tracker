@@ -1,10 +1,11 @@
-import type { Route } from './+types/home';
+import type { Route } from './+types/attributes';
 import { Layout } from '~/components/Layout';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
-import { ItemForm } from '~/components/ItemForm';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
+import { AttributeForm } from '~/components/AttributeForm';
+import { postAttribute } from 'server/postAttribute';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,38 +15,33 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getAll<Item>('/items');
+  let { data } = await getAll<Attribute>('/attributes');
   return { data };
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export async function action({ request, params }: Route.ActionArgs) {
+  const formData = await request.formData();
+  await postAttribute({
+    name: formData.get('name') as string,
+  });
+  return null;
+}
+
+export default function variations({ loaderData }: Route.ComponentProps) {
+  const { data } = loaderData;
   return (
     <Layout>
-      <h1 className="text-4xl font-bold mb-10">Welcome</h1>
+      <h1 className="text-5xl font-bold">Variations</h1>
+      {data.length === 0 && (
+        <p>There are no variations, start adding new variations below</p>
+      )}
+      <AttributeForm />
       <DataTable
-        title="Items"
+        title="Variations"
         columns={[
-          { header: 'Name', accessKey: 'name' },
-          { header: 'Description', accessKey: 'description' },
           {
-            header: 'Skus',
-            accessKey: 'skus',
-            render: (data) => data.skus.length.toString(),
-          },
-          {
-            header: 'Variations',
-            accessKey: 'variations',
-            render: (data) => data.variations.length.toString(),
-          },
-          {
-            header: 'Attributes',
-            accessKey: 'attributes',
-            render: (data) => data.attributes.length.toString(),
-          },
-          {
-            header: 'Images',
-            accessKey: 'images',
-            render: (data) => data.images.length.toString(),
+            header: 'Name',
+            accessKey: 'name',
           },
           {
             header: 'Created At',
@@ -63,9 +59,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             render: (data) => <TableActionButton itemId={data.id} />,
           },
         ]}
-        data={loaderData.data}
+        data={data}
       />
-      <ItemForm />
     </Layout>
   );
 }

@@ -31,6 +31,7 @@ export const ItemForm = () => {
 
   return (
     <DatabaseForm
+      title="Create Item"
       fields={fields}
       formSchema={formSchema}
       onSubmit={onSubmit}

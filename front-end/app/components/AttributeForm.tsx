@@ -5,38 +5,30 @@ import { Field } from 'types/Field';
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
-  displayName: z.string().max(255).optional(),
 });
 
 const fields: Field<typeof formSchema>[] = [
   {
     name: 'name',
-    label: 'Variation Name',
-    placeHolder: 'Variation name',
-    description: 'The full variation name',
-  },
-  {
-    name: 'displayName',
-    label: 'Display name',
-    placeHolder: 'Display name',
-    description: 'A shorter name for the variation to display in the UI',
+    label: 'Attribute Name',
+    placeHolder: 'Attribute name',
   },
 ];
 
-export const VariationForm = () => {
+export const AttributeForm = () => {
   const submit = useSubmit();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    submit(values, { method: 'POST', action: '/variations' });
+    return await submit(values, { method: 'POST', action: '/attributes' });
   };
 
   return (
     <DatabaseForm
-      title="Create Variation"
+      title="Create Attribute"
       fields={fields}
       formSchema={formSchema}
       onSubmit={onSubmit}
-      defaultValues={{ name: '', displayName: '' }}
+      defaultValues={{ name: '' }}
     />
   );
 };
