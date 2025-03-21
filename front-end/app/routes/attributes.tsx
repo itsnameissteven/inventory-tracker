@@ -15,7 +15,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getAll<Attribute>('/attributes');
+  let { data } = await getAll<Attribute>('attributes');
   return { data };
 }
 
@@ -27,17 +27,17 @@ export async function action({ request, params }: Route.ActionArgs) {
   return null;
 }
 
-export default function variations({ loaderData }: Route.ComponentProps) {
+export default function attributes({ loaderData }: Route.ComponentProps) {
   const { data } = loaderData;
   return (
     <Layout>
-      <h1 className="text-5xl font-bold">Variations</h1>
+      <h1 className="text-5xl font-bold">Attributes</h1>
       {data.length === 0 && (
-        <p>There are no variations, start adding new variations below</p>
+        <p>There are no attributes, start adding new attributes below</p>
       )}
       <AttributeForm />
       <DataTable
-        title="Variations"
+        title="Attributes"
         columns={[
           {
             header: 'Name',

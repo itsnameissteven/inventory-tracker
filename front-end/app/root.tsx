@@ -7,16 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from 'react-router';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from '@/components/ui/navigation-menu';
+import { NavigationMenu } from '@/components/ui/navigation-menu';
 
 import type { Route } from './+types/root';
 import './app.css';

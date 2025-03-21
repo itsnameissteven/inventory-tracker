@@ -14,7 +14,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getAll<Item>('/items');
+  let { data } = await getAll<Item>('items');
   return { data };
 }
 
