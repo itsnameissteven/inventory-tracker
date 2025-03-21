@@ -13,9 +13,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getAll<Item>('items');
-  return { data };
+export async function loader({}: Route.LoaderArgs) {
+  let { data: items } = await getAll<Item>('items');
+  let { data: categories } = await getAll<Category>('categories');
+  return { items, categories };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
@@ -63,9 +64,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             render: (data) => <TableActionButton itemId={data.id} />,
           },
         ]}
-        data={loaderData.data}
+        data={loaderData.items}
       />
-      <ItemForm />
+      <ItemForm categories={loaderData.categories} />
     </Layout>
   );
 }

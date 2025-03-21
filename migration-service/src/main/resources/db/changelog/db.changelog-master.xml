@@ -48,9 +48,12 @@
          <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
          <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" />
          <column name="name" type="varchar(50)">
-            <constraints nullable="false"/>
+            <constraints nullable="false" unique="true"/>
          </column>
       </createTable>
+      <!-- <addUniqueConstraint constraintName="uk_categories_name"
+                          tableName="categories"
+                          columnNames="name"/> -->
       <!-- Variations Table -->
       <createTable tableName="variations">
          <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">

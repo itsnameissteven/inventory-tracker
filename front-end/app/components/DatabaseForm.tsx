@@ -48,28 +48,57 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
       <h2 className="text-xl mb-5">{title}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-          {fields.map((value) => (
-            <FormField
-              key={value.name}
-              control={form.control}
-              name={value.name}
-              render={({ field: controllerField }) => (
-                <FormItem>
-                  <FormLabel>{value.label}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={value.placeHolder}
-                      {...controllerField}
-                    />
-                  </FormControl>
-                  {value.description && (
-                    <FormDescription>{value.description}</FormDescription>
+          {fields.map((value) => {
+            if (value.type === 'select') {
+              return (
+                <FormField
+                  key={value.name}
+                  control={form.control}
+                  name={value.name}
+                  render={({ field: controllerField }) => (
+                    <FormItem>
+                      <FormLabel>{value.label}</FormLabel>
+                      <FormControl>
+                        <select {...controllerField} className="w-full">
+                          {value.options?.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </FormControl>
+                      {value.description && (
+                        <FormDescription>{value.description}</FormDescription>
+                      )}
+                      <FormMessage />
+                    </FormItem>
                   )}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
+                />
+              );
+            }
+            return (
+              <FormField
+                key={value.name}
+                control={form.control}
+                name={value.name}
+                render={({ field: controllerField }) => (
+                  <FormItem>
+                    <FormLabel>{value.label}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={value.placeHolder}
+                        {...controllerField}
+                      />
+                    </FormControl>
+                    {value.description && (
+                      <FormDescription>{value.description}</FormDescription>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            );
+          })}
           <Button type="submit">Submit</Button>
         </form>
       </Form>

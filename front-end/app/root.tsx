@@ -44,6 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { name: 'Home', to: '/' },
     { name: 'Variations', to: '/variations' },
     { name: 'Attributes', to: '/attributes' },
+    { name: 'Categories', to: '/categories' },
   ];
   return (
     <html lang="en" className=" dark h-full">
