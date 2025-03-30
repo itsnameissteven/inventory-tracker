@@ -34,6 +34,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             render: (data) => data.skus.length.toString(),
           },
           {
+            header: 'Categories',
+            accessKey: 'categories',
+            render: (data) => data.categories.length.toString(),
+          },
+          {
             header: 'Variations',
             accessKey: 'variations',
             render: (data) => data.variations.length.toString(),

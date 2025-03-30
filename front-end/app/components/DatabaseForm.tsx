@@ -1,6 +1,6 @@
-import { TypeOf, z } from 'zod';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DefaultValues, Path, useForm } from 'react-hook-form';
+import { DefaultValues, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Field } from 'types/Field';
+import { Checkbox } from './ui/checkbox';
 
 type DatabaseFormProps<T extends z.ZodType<any, any>> = {
   title: string;
@@ -70,6 +71,68 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
                       {value.description && (
                         <FormDescription>{value.description}</FormDescription>
                       )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              );
+            } else if (value.type === 'checkbox') {
+              return (
+                <FormField
+                  key={value.name}
+                  control={form.control}
+                  name={value.name}
+                  render={() => (
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel className="text-base">Categories</FormLabel>
+                        <FormDescription>
+                          Select Categories for your item.
+                        </FormDescription>
+                      </div>
+                      {value.options?.map((option) => {
+                        console.log({ option, value });
+                        return (
+                          <FormField
+                            key={option.value}
+                            control={form.control}
+                            name={value.name}
+                            render={({ field }) => {
+                              console.log({ field });
+                              return (
+                                <FormItem
+                                  key={option.value}
+                                  className="flex flex-row items-start space-x-3 space-y-0"
+                                >
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes(
+                                        option.value
+                                      )}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange([
+                                              ...field.value,
+                                              option.value,
+                                            ])
+                                          : field.onChange(
+                                              field.value?.filter(
+                                                (value: any) =>
+                                                  value !== option.value
+                                              )
+                                            );
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="text-sm font-normal">
+                                    {option.label}
+                                  </FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                        );
+                      })}
                       <FormMessage />
                     </FormItem>
                   )}

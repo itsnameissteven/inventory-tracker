@@ -35,7 +35,7 @@ export const ItemForm = ({ categories }: { categories: Category[] }) => {
         label: category.name,
         value: category.id,
       })),
-      type: 'input',
+      type: 'checkbox',
     },
   ];
 

@@ -32,6 +32,7 @@ export async function action({ request }: Route.ActionArgs) {
     await postItem({
       name: formData.get('name') as string,
       description: formData.get('description') as string,
+      categoryIds: (formData.get('categories') as string).split(','),
     });
     return { success: true };
   } catch {

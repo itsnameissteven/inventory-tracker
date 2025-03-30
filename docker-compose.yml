@@ -3,6 +3,7 @@ services:
     build: ./backend-service
     ports:
       - '8080:8080'
+    restart: always
     depends_on:
       - migration
     environment:

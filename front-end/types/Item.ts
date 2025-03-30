@@ -6,6 +6,7 @@ interface Item {
   skus: Sku[];
   variations: Variation[];
   attributes: Attribute[];
+  categories: Category[];
   createdAt: string;
   updatedAt: string;
 }
