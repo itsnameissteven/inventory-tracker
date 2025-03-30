@@ -7,16 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from 'react-router';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from '@/components/ui/navigation-menu';
+import { NavigationMenu } from '@/components/ui/navigation-menu';
 
 import type { Route } from './+types/root';
 import './app.css';
@@ -35,13 +26,18 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export async function action({ request, params }: Route.ActionArgs) {
+export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  await postItem({
-    name: formData.get('name') as string,
-    description: formData.get('description') as string,
-  });
-  return null;
+  try {
+    await postItem({
+      name: formData.get('name') as string,
+      description: formData.get('description') as string,
+      categoryIds: (formData.get('categories') as string).split(','),
+    });
+    return { success: true };
+  } catch {
+    return { success: false };
+  }
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -49,6 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { name: 'Home', to: '/' },
     { name: 'Variations', to: '/variations' },
     { name: 'Attributes', to: '/attributes' },
+    { name: 'Categories', to: '/categories' },
   ];
   return (
     <html lang="en" className=" dark h-full">

@@ -26,13 +26,13 @@ const fields: Field<typeof formSchema>[] = [
 export const VariationForm = () => {
   const submit = useSubmit();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log('hey');
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     submit(values, { method: 'POST', action: '/variations' });
-  }
+  };
 
   return (
     <DatabaseForm
+      title="Create Variation"
       fields={fields}
       formSchema={formSchema}
       onSubmit={onSubmit}

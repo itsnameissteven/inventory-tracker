@@ -1,11 +1,10 @@
 import type { Route } from './+types/home';
-import { getItems } from 'server/getItems';
 import { Layout } from '~/components/Layout';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
 import { ItemForm } from '~/components/ItemForm';
-import { postItem } from 'server/postItem';
 import { formatDate } from '~/utils/formatDate';
+import { getAll } from 'server/getAll';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -14,9 +13,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getItems();
-  return { data };
+export async function loader({}: Route.LoaderArgs) {
+  let { data: items } = await getAll<Item>('items');
+  let { data: categories } = await getAll<Category>('categories');
+  return { items, categories };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
@@ -32,6 +32,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             header: 'Skus',
             accessKey: 'skus',
             render: (data) => data.skus.length.toString(),
+          },
+          {
+            header: 'Categories',
+            accessKey: 'categories',
+            render: (data) => data.categories.length.toString(),
           },
           {
             header: 'Variations',
@@ -64,9 +69,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             render: (data) => <TableActionButton itemId={data.id} />,
           },
         ]}
-        data={loaderData.data}
+        data={loaderData.items}
       />
-      <ItemForm />
+      <ItemForm categories={loaderData.categories} />
     </Layout>
   );
 }

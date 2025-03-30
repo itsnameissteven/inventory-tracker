@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,21 @@ public abstract class BaseController<T, R extends JpaRepository<T, UUID>> {
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body("{\"error\": \"An unexpected error occurred.\"}");
+    }
+  }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteById(@PathVariable UUID id) {
+    try {
+      if (repository.existsById(id)) {
+        repository.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+      } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body("{\"error\": \"Item not found.\"}");
+      }
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body("{\"error\": \"An unexpected error occurred.\"}");
     }
   }
 }

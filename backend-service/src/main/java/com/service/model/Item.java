@@ -69,4 +69,10 @@ public class Item extends BaseModel {
   public void setName(String name) {
     this.name = name;
   }
+  public void setDescription(String description) {
+    this.description = description;
+  }
+  public void setCategories(List<Category> categories) {
+    this.categories = categories;
+  }
 }
