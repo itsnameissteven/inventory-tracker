@@ -7,7 +7,7 @@ services:
     depends_on:
       - migration
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/inventory_tracker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/inventory_tracker_3
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
 
@@ -16,7 +16,7 @@ services:
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/inventory_tracker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/inventory_tracker_3
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
 
@@ -25,7 +25,7 @@ services:
     container_name: inventory_tracker_db
     restart: always
     environment:
-      POSTGRES_DB: inventory_tracker
+      POSTGRES_DB: inventory_tracker_3
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:

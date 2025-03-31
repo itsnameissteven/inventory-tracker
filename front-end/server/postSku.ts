@@ -6,6 +6,6 @@ export const postSku = async (
   }
 ) => {
   console.log({ sku });
-  const response = await api.post<Sku>('/item-skus', sku);
+  const response = await api.post<Sku>('/item-skus/add', sku);
   return response;
 };

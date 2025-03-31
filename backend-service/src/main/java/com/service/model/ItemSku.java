@@ -16,11 +16,11 @@ public class ItemSku extends BaseModel{
   private UUID item_id;
 
   @ManyToOne(fetch = FetchType.EAGER) 
-  @JoinColumn(name = "variation_id", nullable = false)
+  @JoinColumn(name = "variation_id", nullable = true)
   private Variation variation;
  
   @ManyToOne(fetch = FetchType.EAGER) 
-  @JoinColumn(name = "attribute_id", nullable = false)
+  @JoinColumn(name = "attribute_id", nullable = true)
   private Attribute attribute;
 
   public ItemSku() {
