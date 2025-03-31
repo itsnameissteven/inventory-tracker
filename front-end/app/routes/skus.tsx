@@ -1,8 +1,7 @@
-import type { Route } from './+types/home';
+import type { Route } from './+types/skus';
 import { Layout } from '~/components/Layout';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
-import { ItemForm } from '~/components/ItemForm';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
 import { useNavigate } from 'react-router';
@@ -15,45 +14,33 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({}: Route.LoaderArgs) {
-  let { data: items } = await getAll<Item>('items');
-  let { data: categories } = await getAll<Category>('categories');
-  return { items, categories };
+  let { data } = await getAll<Sku>('item-skus');
+  return { data };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
   return (
     <Layout>
-      <h1 className="text-4xl font-bold mb-10">Inventory Dashboard</h1>
+      <h1 className="text-4xl font-bold mb-10">Item SKUs</h1>
       <DataTable
-        title="Items"
+        title="SKUs"
         columns={[
-          { header: 'Name', accessKey: 'name' },
-          { header: 'Description', accessKey: 'description' },
+          { header: 'Price', accessKey: 'price' },
+          { header: 'Stock', accessKey: 'stock' },
           {
-            header: 'Skus',
-            accessKey: 'skus',
-            render: (data) => data.skus.length.toString(),
+            header: 'Item Name',
+            accessKey: 'itemId',
           },
           {
-            header: 'Categories',
-            accessKey: 'categories',
-            render: (data) => data.categories.length.toString(),
+            header: 'Variation',
+            accessKey: 'variation',
+            render: (data) => data.variation?.name || 'N/A',
           },
           {
-            header: 'Variations',
-            accessKey: 'variations',
-            render: (data) => data.variations.length.toString(),
-          },
-          {
-            header: 'Attributes',
-            accessKey: 'attributes',
-            render: (data) => data.attributes.length.toString(),
-          },
-          {
-            header: 'Images',
-            accessKey: 'images',
-            render: (data) => data.images.length.toString(),
+            header: 'Attribute',
+            accessKey: 'attribute',
+            render: (data) => data.attribute?.name || 'N/A',
           },
           {
             header: 'Created At',
@@ -72,17 +59,16 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               <TableActionButton
                 actions={[
                   {
-                    label: 'View Item',
-                    onClick: () => navigate('/item/' + data.id),
+                    label: 'Edit SKU',
+                    onClick: () => navigate('/skus/' + data.id + '/edit'),
                   },
                 ]}
               />
             ),
           },
         ]}
-        data={loaderData.items}
+        data={loaderData.data}
       />
-      <ItemForm categories={loaderData.categories} />
     </Layout>
   );
 }

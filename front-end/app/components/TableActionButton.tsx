@@ -8,10 +8,15 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
+import { useId } from 'react';
 import { useNavigate } from 'react-router';
 
-export const TableActionButton = ({ itemId }: { itemId: string }) => {
-  const navigate = useNavigate();
+export const TableActionButton = ({
+  actions,
+}: {
+  actions: { label: string; onClick: () => void }[];
+}) => {
+  const id = useId();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,12 +27,12 @@ export const TableActionButton = ({ itemId }: { itemId: string }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => navigate('/item/' + itemId)}>
-          Edit item
-        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>View variations</DropdownMenuItem>
-        <DropdownMenuItem>View attributes</DropdownMenuItem>
+        {actions.map((action) => (
+          <DropdownMenuItem key={action.label + id} onClick={action.onClick}>
+            {action.label}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -12,61 +12,55 @@ import jakarta.persistence.Table;
 @Table(name = "item_skus")
 public class ItemSku extends BaseModel{
   private Double price;
-  private Number stock;
+  private Integer stock;
   private UUID item_id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "variation_id", referencedColumnName = "id", insertable = false, updatable = false)
+  @ManyToOne(fetch = FetchType.EAGER) 
+  @JoinColumn(name = "variation_id", nullable = true)
   private Variation variation;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "attribute_id", referencedColumnName = "id", insertable = false, updatable = false)
+ 
+  @ManyToOne(fetch = FetchType.EAGER) 
+  @JoinColumn(name = "attribute_id", nullable = true)
   private Attribute attribute;
-
-  private UUID variation_id;
-  private UUID attribute_id;
 
   public ItemSku() {
   }
-  public ItemSku(Double price, Number stock, UUID item_id, UUID variation_id, UUID attribute_id) {
+  public ItemSku(Double price, Integer stock, UUID item_id, Variation variation, Attribute attribute) {
     this.price = price;
     this.stock = stock;
     this.item_id = item_id;
-    this.variation_id = variation_id;
-    this.attribute_id = attribute_id;
+    this.variation = variation;
+    this.attribute = attribute;
   }
   public Double getPrice() {
     return price;
   }
-  public Number getStock() {
+  public Integer getStock() {
     return stock;
   }
   public UUID getItemId() {
     return item_id;
   }
-  public UUID getVariationId() {
-    return variation_id;
-  }
-  public UUID getAttributeId() {
-    return attribute_id;
-  }
   public Variation getVariation() {
     return variation;
+  }
+  public Attribute getAttribute() {
+    return attribute;
   }
   
   public void setPrice(Double price) {
     this.price = price;
   }
-  public void setStock(Number stock) {
+  public void setStock(Integer stock) {
     this.stock = stock;
   }
   public void setItemId(UUID item_id) {
     this.item_id = item_id;
   }
-  public void setVariationId(UUID variation_id) {
-    this.variation_id = variation_id;
+  public void setVariation(Variation variation) {
+    this.variation = variation;
   }
-  public void setAttributeId(UUID attribute_id) {
-    this.attribute_id = attribute_id;
+  public void setAttribute(Attribute attribute) {
+    this.attribute = attribute;
   }
 }

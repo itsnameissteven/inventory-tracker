@@ -14,29 +14,44 @@ const fields: Field<typeof formSchema>[] = [
     label: 'Variation Name',
     placeHolder: 'Variation name',
     description: 'The full variation name',
+    type: 'text',
   },
   {
     name: 'displayName',
     label: 'Display name',
     placeHolder: 'Display name',
     description: 'A shorter name for the variation to display in the UI',
+    type: 'text',
   },
 ];
 
-export const VariationForm = () => {
+interface VariationFormProps {
+  isEdit?: boolean;
+  actionPath?: string;
+  defaultValues?: {
+    name: string;
+    displayName: string;
+  };
+}
+
+export const VariationForm = ({
+  isEdit = false,
+  actionPath = '/variations',
+  defaultValues = { name: '', displayName: '' },
+}: VariationFormProps) => {
   const submit = useSubmit();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    submit(values, { method: 'POST', action: '/variations' });
+    submit(values, { method: isEdit ? 'PUT' : 'POST', action: actionPath });
   };
 
   return (
     <DatabaseForm
-      title="Create Variation"
+      title={`${isEdit ? 'Update' : 'Create'} Variation`}
       fields={fields}
       formSchema={formSchema}
       onSubmit={onSubmit}
-      defaultValues={{ name: '', displayName: '' }}
+      defaultValues={defaultValues}
     />
   );
 };

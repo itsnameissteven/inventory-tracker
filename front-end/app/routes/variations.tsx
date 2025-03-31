@@ -6,6 +6,7 @@ import { formatDate } from '~/utils/formatDate';
 import { VariationForm } from '~/components/VariationForm';
 import { postVariation } from 'server/postVariation';
 import { getAll } from 'server/getAll';
+import { useNavigate } from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -30,6 +31,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 
 export default function variations({ loaderData }: Route.ComponentProps) {
   const { data } = loaderData;
+  const navigate = useNavigate();
   return (
     <Layout>
       <h1 className="text-5xl font-bold">Variations</h1>
@@ -37,32 +39,47 @@ export default function variations({ loaderData }: Route.ComponentProps) {
         <p>There are no variations, start adding new variations below</p>
       )}
       <VariationForm />
-      <DataTable
-        title="Variations"
-        columns={[
-          {
-            header: 'Name',
-            accessKey: 'name',
-          },
-          { header: 'Display Name', accessKey: 'displayName' },
-          {
-            header: 'Created At',
-            accessKey: 'createdAt',
-            render: (data) => formatDate(data.createdAt),
-          },
-          {
-            header: 'Updated At',
-            accessKey: 'updatedAt',
-            render: (data) => formatDate(data.updatedAt),
-          },
-          {
-            header: '',
-            accessKey: 'id',
-            render: (data) => <TableActionButton itemId={data.id} />,
-          },
-        ]}
-        data={data}
-      />
+      {data.length > 0 && (
+        <>
+          <h2 className="text-2xl font-bold">Variations Table</h2>
+          <DataTable
+            title="Variations"
+            columns={[
+              {
+                header: 'Name',
+                accessKey: 'name',
+              },
+              { header: 'Display Name', accessKey: 'displayName' },
+              {
+                header: 'Created At',
+                accessKey: 'createdAt',
+                render: (data) => formatDate(data.createdAt),
+              },
+              {
+                header: 'Updated At',
+                accessKey: 'updatedAt',
+                render: (data) => formatDate(data.updatedAt),
+              },
+              {
+                header: '',
+                accessKey: 'id',
+                render: (data) => (
+                  <TableActionButton
+                    actions={[
+                      {
+                        label: 'Edit Variation',
+                        onClick: () =>
+                          navigate('/variations/' + data.id + '/edit'),
+                      },
+                    ]}
+                  />
+                ),
+              },
+            ]}
+            data={data}
+          />
+        </>
+      )}
     </Layout>
   );
 }

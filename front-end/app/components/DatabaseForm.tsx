@@ -14,6 +14,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Field } from 'types/Field';
 import { Checkbox } from './ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 
 type DatabaseFormProps<T extends z.ZodType<any, any>> = {
   title: string;
@@ -56,24 +63,35 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
                   key={value.name}
                   control={form.control}
                   name={value.name}
-                  render={({ field: controllerField }) => (
-                    <FormItem>
-                      <FormLabel>{value.label}</FormLabel>
-                      <FormControl>
-                        <select {...controllerField} className="w-full">
-                          {value.options?.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                      </FormControl>
-                      {value.description && (
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>{value.label}</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={value.placeHolder} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {value.options?.map((option) => (
+                              <SelectItem
+                                key={option.value}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <FormDescription>{value.description}</FormDescription>
-                      )}
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               );
             } else if (value.type === 'checkbox') {
@@ -144,21 +162,24 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
                 key={value.name}
                 control={form.control}
                 name={value.name}
-                render={({ field: controllerField }) => (
-                  <FormItem>
-                    <FormLabel>{value.label}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={value.placeHolder}
-                        {...controllerField}
-                      />
-                    </FormControl>
-                    {value.description && (
-                      <FormDescription>{value.description}</FormDescription>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field: controllerField }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>{value.label}</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder={value.placeHolder}
+                          type={value.type}
+                          {...controllerField}
+                        />
+                      </FormControl>
+                      {value.description && (
+                        <FormDescription>{value.description}</FormDescription>
+                      )}
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
             );
           })}
