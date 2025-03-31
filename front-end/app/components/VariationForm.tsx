@@ -14,12 +14,14 @@ const fields: Field<typeof formSchema>[] = [
     label: 'Variation Name',
     placeHolder: 'Variation name',
     description: 'The full variation name',
+    type: 'text',
   },
   {
     name: 'displayName',
     label: 'Display name',
     placeHolder: 'Display name',
     description: 'A shorter name for the variation to display in the UI',
+    type: 'text',
   },
 ];
 

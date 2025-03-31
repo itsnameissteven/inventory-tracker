@@ -42,20 +42,21 @@ export async function action({ request }: Route.ActionArgs) {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const navItems = [
-    { name: 'Home', to: '/' },
+    { name: 'Dashboard', to: '/' },
+    { name: 'SKUs', to: '/skus' },
     { name: 'Variations', to: '/variations' },
     { name: 'Attributes', to: '/attributes' },
     { name: 'Categories', to: '/categories' },
   ];
   return (
-    <html lang="en" className=" dark">
+    <html lang="en" className=" dark min-h-full">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="dark h-full">
+      <body className="dark min-h-screen">
         <NavigationMenu className="pt-4 pr-4 pl-4">
           {navItems.map((item) => (
             <NavLink

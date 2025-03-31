@@ -21,6 +21,7 @@ export const BaseForm = ({
       name: 'name',
       label: `${title} Name`,
       placeHolder: `Enter ${title} Name`,
+      type: 'text',
     },
   ];
   const onSubmit = async (values: z.infer<typeof formSchema>) => {

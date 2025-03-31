@@ -17,14 +17,14 @@ export const ItemForm = ({ categories }: { categories: Category[] }) => {
       label: 'Name',
       placeHolder: 'Item name',
       description: 'This is the item name',
-      type: 'input',
+      type: 'text',
     },
     {
       name: 'description',
       label: 'Description',
       placeHolder: 'Item description',
       description: 'This is the item description',
-      type: 'input',
+      type: 'text',
     },
     {
       name: 'categories',
