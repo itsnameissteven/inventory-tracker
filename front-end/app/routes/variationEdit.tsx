@@ -3,7 +3,7 @@ import { Layout } from '~/components/Layout';
 import { getById } from 'server/getById';
 import { redirect } from 'react-router';
 import { VariationForm } from '~/components/VariationForm';
-import { updateVariation } from 'server/updateVariation';
+import { updateEntity } from 'server/updateEntity';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,12 +19,10 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export async function action({ request, params }: Route.ActionArgs) {
   const formData = await request.formData();
-  if (params.id) {
-    await updateVariation(params.id, {
-      name: formData.get('name') as string,
-      displayName: formData.get('displayName') as string,
-    });
-  }
+  await updateEntity<Variation>(`variations/${params.id}`, {
+    name: formData.get('name') as string,
+    displayName: formData.get('displayName') as string,
+  });
   return redirect('/variations');
 }
 

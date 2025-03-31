@@ -12,13 +12,16 @@ export default [
     index('routes/variations.tsx'),
     route(':id/edit', 'routes/variationEdit.tsx'),
   ]),
-  ...prefix('skus', [index('routes/skus.tsx')]),
+  ...prefix('skus', [
+    index('routes/skus.tsx'),
+    route(':id/edit', 'routes/skuEdit.tsx'),
+  ]),
   ...prefix('attributes', [
     index('routes/attributes.tsx'),
     route(':id/edit', 'routes/attributeEdit.tsx'),
   ]),
   ...prefix('categories', [
-    index('routes/categories.tsx'), // Route for /categories
-    route(':id/edit', 'routes/categoryEdit.tsx'), // Route for /categories/:id/edit
+    index('routes/categories.tsx'),
+    route(':id/edit', 'routes/categoryEdit.tsx'),
   ]),
 ] satisfies RouteConfig;

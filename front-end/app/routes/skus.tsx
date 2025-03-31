@@ -2,7 +2,6 @@ import type { Route } from './+types/skus';
 import { Layout } from '~/components/Layout';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
-import { ItemForm } from '~/components/ItemForm';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
 import { useNavigate } from 'react-router';
@@ -16,7 +15,6 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader({}: Route.LoaderArgs) {
   let { data } = await getAll<Sku>('item-skus');
-  // let { data: categories } = await getAll<Category>('categories');
   return { data };
 }
 

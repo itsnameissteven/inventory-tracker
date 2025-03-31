@@ -3,15 +3,33 @@ import { useSubmit } from 'react-router';
 import { DatabaseForm } from './DatabaseForm';
 import { Field } from 'types/Field';
 
+type SkuFormProps = {
+  variations: Variation[];
+  attributes: Attribute[];
+  itemId: string;
+  isEdit?: boolean;
+  actionPath?: string;
+  defaultValues?: {
+    price: string;
+    stock: string;
+    variation: string;
+    attribute: string;
+  };
+};
+
 export const SkuForm = ({
   variations,
   attributes,
   itemId,
-}: {
-  variations: Variation[];
-  attributes: Attribute[];
-  itemId: string;
-}) => {
+  isEdit = false,
+  actionPath = `/item/${itemId}`,
+  defaultValues = {
+    price: '',
+    stock: '',
+    variation: '',
+    attribute: '',
+  },
+}: SkuFormProps) => {
   const submit = useSubmit();
   const formSchema = z.object({
     price: z.string(),
@@ -61,23 +79,18 @@ export const SkuForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     await submit(values, {
-      method: 'POST',
-      action: `/item/${itemId}`,
+      method: isEdit ? 'PUT' : 'POST',
+      action: actionPath,
     });
   };
 
   return (
     <DatabaseForm
-      title="Create Item SKU"
+      title={`${isEdit ? 'Update' : 'Create'} Item SKU`}
       fields={fields}
       formSchema={formSchema}
       onSubmit={onSubmit}
-      defaultValues={{
-        price: '',
-        stock: '',
-        variation: '',
-        attribute: '',
-      }}
+      defaultValues={defaultValues}
     />
   );
 };

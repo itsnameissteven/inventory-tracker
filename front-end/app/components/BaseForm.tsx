@@ -25,8 +25,8 @@ export const BaseForm = ({
   const fields: Field<typeof formSchema>[] = [
     {
       name: 'name',
-      label: `${title} Name`,
-      placeHolder: `Enter ${title} Name`,
+      label: `Name`,
+      placeHolder: `Name`,
       type: 'text',
     },
   ];

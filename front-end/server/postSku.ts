@@ -5,7 +5,6 @@ export const postSku = async (
     attributeId?: string;
   }
 ) => {
-  console.log({ sku });
   const response = await api.post<Sku>('/item-skus/add', sku);
   return response;
 };

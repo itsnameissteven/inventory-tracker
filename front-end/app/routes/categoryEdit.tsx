@@ -1,14 +1,9 @@
 import type { Route } from './+types/categoryEdit';
 import { Layout } from '~/components/Layout';
-import { DataTable } from '~/components/DataTable';
-import { TableActionButton } from '~/components/TableActionButton';
-import { formatDate } from '~/utils/formatDate';
-import { getAll } from 'server/getAll';
 import { BaseForm } from '~/components/BaseForm';
-import { postCategory } from 'server/postCategory';
-import { redirect, useNavigate } from 'react-router';
+import { redirect } from 'react-router';
 import { getById } from 'server/getById';
-import { updateCategory } from 'server/updateCategory';
+import { updateEntity } from 'server/updateEntity';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,11 +19,9 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export async function action({ request, params }: Route.ActionArgs) {
   const formData = await request.formData();
-  if (params.id) {
-    await updateCategory(params.id, {
-      name: formData.get('name') as string,
-    });
-  }
+  await updateEntity<Category>(`categories/${params.id}`, {
+    name: formData.get('name') as string,
+  });
   return redirect('/categories');
 }
 

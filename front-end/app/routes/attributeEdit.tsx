@@ -2,8 +2,8 @@ import type { Route } from './+types/attributeEdit';
 import { Layout } from '~/components/Layout';
 import { BaseForm } from '~/components/BaseForm';
 import { getById } from 'server/getById';
-import { updateAttribute } from 'server/updateAttribute';
 import { redirect } from 'react-router';
+import { updateEntity } from 'server/updateEntity';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,11 +19,9 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export async function action({ request, params }: Route.ActionArgs) {
   const formData = await request.formData();
-  if (params.id) {
-    await updateAttribute(params.id, {
-      name: formData.get('name') as string,
-    });
-  }
+  await updateEntity<Attribute>(`attributes/${params.id}`, {
+    name: formData.get('name') as string,
+  });
   return redirect('/attributes');
 }
 
