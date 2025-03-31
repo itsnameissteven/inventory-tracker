@@ -7,13 +7,19 @@ const formSchema = z.object({
   name: z.string().min(2).max(50),
 });
 
+type BaseFormProps = {
+  title: string;
+  actionPath: string;
+  defaultValues?: {
+    name: string;
+  };
+};
+
 export const BaseForm = ({
   title,
   actionPath,
-}: {
-  title: string;
-  actionPath: string;
-}) => {
+  defaultValues = { name: '' },
+}: BaseFormProps) => {
   const submit = useSubmit();
 
   const fields: Field<typeof formSchema>[] = [
@@ -30,11 +36,11 @@ export const BaseForm = ({
 
   return (
     <DatabaseForm
-      title={`Create ${title}`}
+      title={title}
       fields={fields}
       formSchema={formSchema}
       onSubmit={onSubmit}
-      defaultValues={{ name: '' }}
+      defaultValues={defaultValues}
     />
   );
 };

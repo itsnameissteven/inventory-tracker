@@ -8,6 +8,7 @@ import { formatDate } from '~/utils/formatDate';
 import { SkuForm } from '~/components/SkuForm';
 import { getAll } from 'server/getAll';
 import { postSku } from 'server/postSku';
+import { useNavigate } from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -29,7 +30,7 @@ export async function action({ request, params }: Route.ActionArgs) {
     await postSku({
       itemId: params.id,
       price: Number(formData.get('price') as string),
-      stock: Number(formData.get('stock') as string),
+      stock: Number(formData.get('stock') as string) || 0,
       variationId: formData.get('variation') as string,
       attributeId: formData.get('attribute') as string,
     });
@@ -39,9 +40,11 @@ export async function action({ request, params }: Route.ActionArgs) {
 
 export default function item({ loaderData }: Route.ComponentProps) {
   const { item, attributes, variations } = loaderData;
+  const navigate = useNavigate();
   return (
     <Layout>
       <h1 className="text-5xl font-bold">{item.name}</h1>
+      <h2 className="text-2xl font-bold">Description:</h2>
       <p>{item.description}</p>
       {item.skus.length === 0 && (
         <p>There are no skus, start adding skus below</p>
@@ -80,7 +83,16 @@ export default function item({ loaderData }: Route.ComponentProps) {
             {
               header: '',
               accessKey: 'id',
-              render: (data) => <TableActionButton itemId={data.id} />,
+              render: (data) => (
+                <TableActionButton
+                  actions={[
+                    {
+                      label: 'Edit SKU',
+                      onClick: () => navigate('/skus/' + data.id + '/edit'),
+                    },
+                  ]}
+                />
+              ),
             },
           ]}
           data={item.skus}

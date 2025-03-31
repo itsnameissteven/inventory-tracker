@@ -1,0 +1,45 @@
+import type { Route } from './+types/attributeEdit';
+import { Layout } from '~/components/Layout';
+import { BaseForm } from '~/components/BaseForm';
+import { getById } from 'server/getById';
+import { updateAttribute } from 'server/updateAttribute';
+import { redirect } from 'react-router';
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: 'New React Router App' },
+    { name: 'description', content: 'Welcome to React Router!' },
+  ];
+}
+
+export async function loader({ params }: Route.LoaderArgs) {
+  let { data } = await getById<Attribute>('attributes', params.id);
+  return { data };
+}
+
+export async function action({ request, params }: Route.ActionArgs) {
+  const formData = await request.formData();
+  if (params.id) {
+    await updateAttribute(params.id, {
+      name: formData.get('name') as string,
+    });
+  }
+  return redirect('/attributes');
+}
+
+export default function AttributeEdit({ loaderData }: Route.ComponentProps) {
+  const { data } = loaderData;
+  return (
+    <Layout>
+      <h1 className="text-5xl font-bold">Edit Attribute</h1>
+      <p>
+        ⚠️ Any Changes made will reflect in all item skus using this attribute.
+      </p>
+      <BaseForm
+        title={'Edit Attribute'}
+        actionPath={`/attributes/${data.id}/edit`}
+        defaultValues={{ name: data.name }}
+      />
+    </Layout>
+  );
+}

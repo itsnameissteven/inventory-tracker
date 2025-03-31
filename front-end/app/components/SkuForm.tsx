@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { useSubmit } from 'react-router';
 import { DatabaseForm } from './DatabaseForm';
 import { Field } from 'types/Field';
-import attributes from '~/routes/attributes';
 
 export const SkuForm = ({
   variations,
@@ -69,13 +68,13 @@ export const SkuForm = ({
 
   return (
     <DatabaseForm
-      title="Create Item"
+      title="Create Item SKU"
       fields={fields}
       formSchema={formSchema}
       onSubmit={onSubmit}
       defaultValues={{
         price: '',
-        stock: '0',
+        stock: '',
         variation: '',
         attribute: '',
       }}
