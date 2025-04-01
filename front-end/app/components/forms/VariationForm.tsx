@@ -32,21 +32,25 @@ interface VariationFormProps {
     name: string;
     displayName: string;
   };
+  onSubmitConfirm?: () => void;
 }
 
 export const VariationForm = ({
   isEdit = false,
   actionPath = '/variations',
   defaultValues = { name: '', displayName: '' },
+  onSubmitConfirm,
 }: VariationFormProps) => {
   const submit = useSubmit();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     submit(values, { method: isEdit ? 'PUT' : 'POST', action: actionPath });
+    onSubmitConfirm?.();
   };
 
   return (
     <DatabaseForm
+      withStyle={isEdit}
       title={`${isEdit ? 'Update' : 'Create'} Variation`}
       fields={fields}
       formSchema={formSchema}

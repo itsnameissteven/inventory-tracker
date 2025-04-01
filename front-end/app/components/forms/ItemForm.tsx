@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { useSubmit } from 'react-router';
 import { DatabaseForm } from './DatabaseForm';
 import { Field } from 'types/Field';
+import { on } from 'events';
 
 type ItemFormProps = {
   categories: Category[];
@@ -12,6 +13,7 @@ type ItemFormProps = {
     description: string;
     categories: string[];
   };
+  onSubmitConfirm?: () => void;
 };
 
 export const ItemForm = ({
@@ -19,6 +21,7 @@ export const ItemForm = ({
   isEdit,
   actionPath = '/',
   defaultValues = { name: '', description: '', categories: [] },
+  onSubmitConfirm,
 }: ItemFormProps) => {
   const submit = useSubmit();
   const formSchema = z.object({
@@ -60,10 +63,12 @@ export const ItemForm = ({
       method: isEdit ? 'PUT' : 'POST',
       action: actionPath,
     });
+    onSubmitConfirm?.();
   };
 
   return (
     <DatabaseForm
+      withStyle={isEdit}
       title="Create Item"
       fields={fields}
       formSchema={formSchema}

@@ -1,6 +1,6 @@
 import type { Route } from './+types/categoryEdit';
 import { Layout } from '~/components/Layout';
-import { BaseForm } from '~/components/BaseForm';
+import { BaseForm } from '~/components/forms/BaseForm';
 import { redirect } from 'react-router';
 import { getById } from 'server/getById';
 import { updateEntity } from 'server/updateEntity';
@@ -32,6 +32,7 @@ export default function categoryEdit({ loaderData }: Route.ComponentProps) {
       <h1 className="text-5xl font-bold">Edit Category</h1>
       <p>⚠️ Any Changes made will reflect in all items using this category.</p>
       <BaseForm
+        isEdit
         title={'Category'}
         actionPath={`/categories/${data.id}/edit`}
         defaultValues={{ name: data.name }}

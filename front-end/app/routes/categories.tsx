@@ -4,9 +4,10 @@ import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
-import { BaseForm } from '~/components/BaseForm';
+import { BaseForm } from '~/components/forms/BaseForm';
 import { postCategory } from 'server/postCategory';
 import { useNavigate } from 'react-router';
+import { PageHeader } from '~/components/PageHeader';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -33,11 +34,19 @@ export default function categories({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
   return (
     <Layout>
-      <h1 className="text-5xl font-bold">Categories</h1>
+      <PageHeader header="Categories" buttonContent="Create Category">
+        {(closeModal) => (
+          <BaseForm
+            title="Create Category"
+            actionPath="/categories"
+            onSubmitConfirm={closeModal}
+          />
+        )}
+      </PageHeader>
       {data.length === 0 && (
         <p>There are no categories, start adding new categories below</p>
       )}
-      <BaseForm title={'Create Category'} actionPath={'/categories'} />
+      {/* <BaseForm title={'Create Category'} actionPath={'/categories'} /> */}
       {data.length > 0 && (
         <>
           <h2 className="text-2xl font-bold">Categories Table</h2>

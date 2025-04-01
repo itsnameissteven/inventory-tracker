@@ -2,10 +2,11 @@ import type { Route } from './+types/home';
 import { Layout } from '~/components/Layout';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
-import { ItemForm } from '~/components/ItemForm';
+import { ItemForm } from '~/components/forms/ItemForm';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
 import { useNavigate } from 'react-router';
+import { PageHeader } from '~/components/PageHeader';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,7 +25,15 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
   return (
     <Layout>
-      <h1 className="text-4xl font-bold mb-10">Inventory Dashboard</h1>
+      <PageHeader header="Inventory Dashboard" buttonContent="Create Item">
+        {(closeModal) => (
+          <ItemForm
+            categories={loaderData.categories}
+            onSubmitConfirm={closeModal}
+          />
+        )}
+      </PageHeader>
+      <h2 className="text-2xl font-bold">Items Table</h2>
       <DataTable
         title="Items"
         columns={[
@@ -86,7 +95,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         ]}
         data={loaderData.items}
       />
-      <ItemForm categories={loaderData.categories} />
     </Layout>
   );
 }

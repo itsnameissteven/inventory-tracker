@@ -22,7 +22,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
   return (
     <Layout>
-      <h1 className="text-4xl font-bold mb-10">Item SKUs</h1>
+      <h1 className="text-5xl font-bold mb-10">Item SKUs</h1>
+      <h2 className="text-2xl font-bold">Item Skus Table</h2>
       <DataTable
         title="SKUs"
         columns={[

@@ -15,6 +15,7 @@ type SkuFormProps = {
     variation: string;
     attribute: string;
   };
+  onSubmitConfirm?: () => void;
 };
 
 export const SkuForm = ({
@@ -29,6 +30,7 @@ export const SkuForm = ({
     variation: '',
     attribute: '',
   },
+  onSubmitConfirm,
 }: SkuFormProps) => {
   const submit = useSubmit();
   const formSchema = z.object({
@@ -82,10 +84,12 @@ export const SkuForm = ({
       method: isEdit ? 'PUT' : 'POST',
       action: actionPath,
     });
+    onSubmitConfirm?.();
   };
 
   return (
     <DatabaseForm
+      withStyle={isEdit}
       title={`${isEdit ? 'Update' : 'Create'} Item SKU`}
       fields={fields}
       formSchema={formSchema}

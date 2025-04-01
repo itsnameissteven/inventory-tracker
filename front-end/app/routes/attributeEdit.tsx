@@ -1,6 +1,6 @@
 import type { Route } from './+types/attributeEdit';
 import { Layout } from '~/components/Layout';
-import { BaseForm } from '~/components/BaseForm';
+import { BaseForm } from '~/components/forms/BaseForm';
 import { getById } from 'server/getById';
 import { redirect } from 'react-router';
 import { updateEntity } from 'server/updateEntity';
@@ -34,6 +34,7 @@ export default function AttributeEdit({ loaderData }: Route.ComponentProps) {
         ⚠️ Any Changes made will reflect in all item skus using this attribute.
       </p>
       <BaseForm
+        isEdit
         title={'Edit Attribute'}
         actionPath={`/attributes/${data.id}/edit`}
         defaultValues={{ name: data.name }}

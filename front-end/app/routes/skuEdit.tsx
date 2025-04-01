@@ -2,7 +2,7 @@ import type { Route } from './+types/skuEdit';
 import { Layout } from '~/components/Layout';
 import { getById } from 'server/getById';
 import { redirect } from 'react-router';
-import { SkuForm } from '~/components/SkuForm';
+import { SkuForm } from '~/components/forms/SkuForm';
 import { getAll } from 'server/getAll';
 import { updateEntity } from 'server/updateEntity';
 
