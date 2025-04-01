@@ -5,8 +5,9 @@ import { TableActionButton } from '~/components/TableActionButton';
 import { ItemForm } from '~/components/forms/ItemForm';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
-import { useNavigate } from 'react-router';
+import { redirect, useNavigate } from 'react-router';
 import { PageHeader } from '~/components/PageHeader';
+import { getUserToken } from '~/services/session.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,7 +16,12 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({}: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
+  const userId = await getUserToken(request);
+  console.log('userId', userId);
+  if (!userId) {
+    throw redirect('/login');
+  }
   let { data: items } = await getAll<Item>('items');
   let { data: categories } = await getAll<Category>('categories');
   return { items, categories };

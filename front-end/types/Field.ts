@@ -6,6 +6,6 @@ export type Field<T extends ZodType<any, any, any>> = {
   label: string;
   placeHolder?: string;
   description?: string;
-  type: 'text' | 'number' | 'select' | 'checkbox';
+  type: 'text' | 'number' | 'select' | 'checkbox' | 'password';
   options?: { label: string; value: string }[];
 };
