@@ -8,6 +8,7 @@ import { BaseForm } from '~/components/forms/BaseForm';
 import { postAttribute } from 'server/postAttribute';
 import { useNavigate } from 'react-router';
 import { PageHeader } from '~/components/PageHeader';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,8 +17,9 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader() {
-  let { data } = await getAll<Attribute>('attributes');
+export async function loader({ request }: Route.LoaderArgs) {
+  await auth(request);
+  const { data } = await getAll<Attribute>('attributes');
   return { data };
 }
 
@@ -43,49 +45,42 @@ export default function attributes({ loaderData }: Route.ComponentProps) {
           />
         )}
       </PageHeader>
-      {data.length === 0 && (
-        <p>There are no attributes, start adding new attributes</p>
-      )}
-      {data.length > 0 && (
-        <>
-          <h2 className="text-2xl font-bold">Attributes Table</h2>
-          <DataTable
-            title="Attributes"
-            columns={[
-              {
-                header: 'Name',
-                accessKey: 'name',
-              },
-              {
-                header: 'Created At',
-                accessKey: 'createdAt',
-                render: (data) => formatDate(data.createdAt),
-              },
-              {
-                header: 'Updated At',
-                accessKey: 'updatedAt',
-                render: (data) => formatDate(data.updatedAt),
-              },
-              {
-                header: '',
-                accessKey: 'id',
-                render: (data) => (
-                  <TableActionButton
-                    actions={[
-                      {
-                        label: 'Edit Attribute',
-                        onClick: () =>
-                          navigate('/attributes/' + data.id + '/edit'),
-                      },
-                    ]}
-                  />
-                ),
-              },
-            ]}
-            data={data}
-          />
-        </>
-      )}
+      <DataTable
+        noDataMessage="No attributes found, start adding attributes."
+        header="Attributes Table"
+        title="Attributes"
+        columns={[
+          {
+            header: 'Name',
+            accessKey: 'name',
+          },
+          {
+            header: 'Created At',
+            accessKey: 'createdAt',
+            render: (data) => formatDate(data.createdAt),
+          },
+          {
+            header: 'Updated At',
+            accessKey: 'updatedAt',
+            render: (data) => formatDate(data.updatedAt),
+          },
+          {
+            header: '',
+            accessKey: 'id',
+            render: (data) => (
+              <TableActionButton
+                actions={[
+                  {
+                    label: 'Edit Attribute',
+                    onClick: () => navigate('/attributes/' + data.id + '/edit'),
+                  },
+                ]}
+              />
+            ),
+          },
+        ]}
+        data={data}
+      />
     </Layout>
   );
 }

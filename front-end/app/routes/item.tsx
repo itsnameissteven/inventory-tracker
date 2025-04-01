@@ -10,6 +10,7 @@ import { getAll } from 'server/getAll';
 import { postSku } from 'server/postSku';
 import { useNavigate } from 'react-router';
 import { PageHeader } from '~/components/PageHeader';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,10 +19,11 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  let { data: item } = await getItemById(params.id);
-  let { data: attributes } = await getAll<Attribute>('attributes');
-  let { data: variations } = await getAll<Variation>('variations');
+export async function loader({ params, request }: Route.LoaderArgs) {
+  await auth(request);
+  const { data: item } = await getItemById(params.id);
+  const { data: attributes } = await getAll<Attribute>('attributes');
+  const { data: variations } = await getAll<Variation>('variations');
   return { item, attributes, variations };
 }
 

@@ -5,6 +5,7 @@ import { redirect } from 'react-router';
 import { updateEntity } from 'server/updateEntity';
 import { ItemForm } from '~/components/forms/ItemForm';
 import { getAll } from 'server/getAll';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,7 +14,8 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
+  await auth(request);
   const { data: item } = await getById<Item>('items', params.id);
   const { data: categories } = await getAll<Category>('categories');
   return { item, categories };

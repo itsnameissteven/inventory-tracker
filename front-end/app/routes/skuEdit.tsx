@@ -5,6 +5,7 @@ import { redirect } from 'react-router';
 import { SkuForm } from '~/components/forms/SkuForm';
 import { getAll } from 'server/getAll';
 import { updateEntity } from 'server/updateEntity';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,7 +14,8 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
+  await auth(request);
   const { data: sku } = await getById<Sku>('item-skus', params.id);
   const { data: variations } = await getAll<Variation>('variations');
   const { data: attributes } = await getAll<Attribute>('attributes');

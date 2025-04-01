@@ -12,6 +12,8 @@ import { NavigationMenu } from '@/components/ui/navigation-menu';
 import type { Route } from './+types/root';
 import './app.css';
 import { postItem } from 'server/postItem';
+import { Button } from './components/ui/button';
+import { logout } from './services/session.server';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -28,15 +30,19 @@ export const links: Route.LinksFunction = () => [
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  try {
-    await postItem({
-      name: formData.get('name') as string,
-      description: formData.get('description') as string,
-      categoryIds: (formData.get('categories') as string).split(','),
-    });
-    return { success: true };
-  } catch {
-    return { success: false };
+  if (formData.get('type') === 'logout') {
+    return await logout(request);
+  } else {
+    try {
+      await postItem({
+        name: formData.get('name') as string,
+        description: formData.get('description') as string,
+        categoryIds: (formData.get('categories') as string).split(','),
+      });
+      return { success: true };
+    } catch {
+      return { success: false };
+    }
   }
 }
 
@@ -57,21 +63,27 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="dark min-h-screen">
-        <NavigationMenu className="pt-4 pr-4 pl-4">
-          {navItems.map((item) => (
-            <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? 'underline underline-offset-8 pl-4 pr-4'
-                  : 'pl-4 pr-4'
-              }
-              key={item.to}
-              to={item.to}
-            >
-              {item.name}
-            </NavLink>
-          ))}
-        </NavigationMenu>
+        <div className=" pt-4 pr-4 pl-4 flex justify-between w-full">
+          <NavigationMenu>
+            {navItems.map((item) => (
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? 'underline underline-offset-8 pl-4 pr-4'
+                    : 'pl-4 pr-4'
+                }
+                key={item.to}
+                to={item.to}
+              >
+                {item.name}
+              </NavLink>
+            ))}
+          </NavigationMenu>
+          <form method="post">
+            <input type="hidden" name="type" value="logout" />
+            <Button type="submit">Logout</Button>
+          </form>
+        </div>
         {children}
         <ScrollRestoration />
         <Scripts />

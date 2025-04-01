@@ -7,6 +7,7 @@ import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
 import { useNavigate } from 'react-router';
 import { PageHeader } from '~/components/PageHeader';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,7 +16,8 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({}: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
+  await auth(request);
   let { data: items } = await getAll<Item>('items');
   let { data: categories } = await getAll<Category>('categories');
   return { items, categories };
@@ -23,6 +25,7 @@ export async function loader({}: Route.LoaderArgs) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
+  console.log(loaderData);
   return (
     <Layout>
       <PageHeader header="Inventory Dashboard" buttonContent="Create Item">
@@ -33,8 +36,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           />
         )}
       </PageHeader>
-      <h2 className="text-2xl font-bold">Items Table</h2>
       <DataTable
+        noDataMessage="No items found, start adding items."
+        header="Items Table"
         title="Items"
         columns={[
           { header: 'Name', accessKey: 'name' },

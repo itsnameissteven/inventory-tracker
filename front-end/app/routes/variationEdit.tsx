@@ -4,6 +4,7 @@ import { getById } from 'server/getById';
 import { redirect } from 'react-router';
 import { VariationForm } from '~/components/forms/VariationForm';
 import { updateEntity } from 'server/updateEntity';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,7 +13,8 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
+  await auth(request);
   let { data } = await getById<Variation>('variations', params.id);
   return { data };
 }
