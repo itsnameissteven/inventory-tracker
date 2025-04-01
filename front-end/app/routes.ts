@@ -7,7 +7,10 @@ import {
 
 export default [
   index('routes/home.tsx'),
-  ...prefix('item', [route(':id', 'routes/item.tsx')]),
+  ...prefix('item', [
+    route(':id', 'routes/item.tsx'),
+    route(':id/edit', 'routes/itemEdit.tsx'),
+  ]),
   ...prefix('variations', [
     index('routes/variations.tsx'),
     route(':id/edit', 'routes/variationEdit.tsx'),
