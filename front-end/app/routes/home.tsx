@@ -75,6 +75,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     label: 'View Item',
                     onClick: () => navigate('/item/' + data.id),
                   },
+                  {
+                    label: 'Edit Item',
+                    onClick: () => navigate('/item/' + data.id + '/edit'),
+                  },
                 ]}
               />
             ),

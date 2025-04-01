@@ -3,7 +3,23 @@ import { useSubmit } from 'react-router';
 import { DatabaseForm } from './DatabaseForm';
 import { Field } from 'types/Field';
 
-export const ItemForm = ({ categories }: { categories: Category[] }) => {
+type ItemFormProps = {
+  categories: Category[];
+  isEdit?: boolean;
+  actionPath?: string;
+  defaultValues?: {
+    name: string;
+    description: string;
+    categories: string[];
+  };
+};
+
+export const ItemForm = ({
+  categories,
+  isEdit,
+  actionPath = '/',
+  defaultValues = { name: '', description: '', categories: [] },
+}: ItemFormProps) => {
   const submit = useSubmit();
   const formSchema = z.object({
     name: z.string().min(2).max(50),
@@ -40,7 +56,10 @@ export const ItemForm = ({ categories }: { categories: Category[] }) => {
   ];
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    await submit(values, { method: 'POST', action: '/' });
+    await submit(values, {
+      method: isEdit ? 'PUT' : 'POST',
+      action: actionPath,
+    });
   };
 
   return (
@@ -49,7 +68,7 @@ export const ItemForm = ({ categories }: { categories: Category[] }) => {
       fields={fields}
       formSchema={formSchema}
       onSubmit={onSubmit}
-      defaultValues={{ name: '', description: '', categories: [] }}
+      defaultValues={defaultValues}
     />
   );
 };
