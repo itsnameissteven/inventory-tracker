@@ -8,6 +8,7 @@ import { postVariation } from 'server/postVariation';
 import { getAll } from 'server/getAll';
 import { useNavigate } from 'react-router';
 import { PageHeader } from '~/components/PageHeader';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,12 +17,13 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getAll<Variation>('variations');
+export async function loader({ request }: Route.LoaderArgs) {
+  await auth(request);
+  const { data } = await getAll<Variation>('variations');
   return { data };
 }
 
-export async function action({ request, params }: Route.ActionArgs) {
+export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
   await postVariation({
     name: formData.get('name') as string,

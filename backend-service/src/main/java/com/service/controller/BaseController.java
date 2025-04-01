@@ -18,8 +18,10 @@ public abstract class BaseController<T, R extends JpaRepository<T, UUID>> {
   private R repository;
 
   @GetMapping
-  public List<T> getAll() {
-    return repository.findAll();
+  public ResponseEntity<List<T>> getAll() {
+    System.out.println("Get all items");
+    List<T> items = repository.findAll();
+    return ResponseEntity.ok(items);
   }
 
   @PostMapping

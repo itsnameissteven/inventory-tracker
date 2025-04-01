@@ -5,6 +5,7 @@ import { TableActionButton } from '~/components/TableActionButton';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
 import { useNavigate } from 'react-router';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,8 +14,9 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({}: Route.LoaderArgs) {
-  let { data } = await getAll<Sku>('item-skus');
+export async function loader({ request }: Route.LoaderArgs) {
+  await auth(request);
+  const { data } = await getAll<Sku>('item-skus');
   return { data };
 }
 

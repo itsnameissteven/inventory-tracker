@@ -8,6 +8,7 @@ import { BaseForm } from '~/components/forms/BaseForm';
 import { postAttribute } from 'server/postAttribute';
 import { useNavigate } from 'react-router';
 import { PageHeader } from '~/components/PageHeader';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,8 +17,9 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader() {
-  let { data } = await getAll<Attribute>('attributes');
+export async function loader({ request }: Route.LoaderArgs) {
+  await auth(request);
+  const { data } = await getAll<Attribute>('attributes');
   return { data };
 }
 

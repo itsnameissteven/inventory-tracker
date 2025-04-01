@@ -12,6 +12,8 @@ import { NavigationMenu } from '@/components/ui/navigation-menu';
 import type { Route } from './+types/root';
 import './app.css';
 import { postItem } from 'server/postItem';
+import { Button } from './components/ui/button';
+import { logout } from './services/session.server';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -28,15 +30,19 @@ export const links: Route.LinksFunction = () => [
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  try {
-    await postItem({
-      name: formData.get('name') as string,
-      description: formData.get('description') as string,
-      categoryIds: (formData.get('categories') as string).split(','),
-    });
-    return { success: true };
-  } catch {
-    return { success: false };
+  if (formData.get('type') === 'logout') {
+    return await logout(request);
+  } else {
+    try {
+      await postItem({
+        name: formData.get('name') as string,
+        description: formData.get('description') as string,
+        categoryIds: (formData.get('categories') as string).split(','),
+      });
+      return { success: true };
+    } catch {
+      return { success: false };
+    }
   }
 }
 
@@ -71,6 +77,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
               {item.name}
             </NavLink>
           ))}
+          <form method="post">
+            <input type="hidden" name="type" value="logout" />
+            <Button type="submit">Logout</Button>
+          </form>
         </NavigationMenu>
         {children}
         <ScrollRestoration />

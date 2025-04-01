@@ -42,15 +42,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-        // Skip JWT validation for /auth/** paths
-        String requestPath = request.getRequestURI();
+        // // Skip JWT validation for /auth/** paths
+        // String requestPath = request.getRequestURI();
 
-        // Skip JWT validation for /auth/** paths
-        if (requestPath.startsWith("/auth/")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        // // Skip JWT validation for /auth/** paths
+        // if (requestPath.startsWith("/auth/")) {
+        //     filterChain.doFilter(request, response);
+        //     return;
+        // }
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("No JWT token found in request");
             filterChain.doFilter(request, response);
             return;
         }
@@ -58,6 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractUsername(jwt);
+            System.out.println("JWT token found in request: " + userEmail);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

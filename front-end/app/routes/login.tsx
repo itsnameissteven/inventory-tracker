@@ -6,6 +6,7 @@ import { Layout } from '~/components/Layout';
 import { z } from 'zod';
 import { DatabaseForm } from '~/components/forms/DatabaseForm';
 import { Field } from 'types/Field';
+import { auth } from '~/services/auth.server';
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,6 +16,7 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request }: Route.LoaderArgs) {
+  await auth(request);
   const userId = await getUserToken(request);
   if (userId) {
     return redirect('/');
@@ -38,8 +40,10 @@ export async function action({ request }: Route.ActionArgs) {
       userToken: data.token,
       remember: true,
     });
-    console.log('data', response);
-    return redirect('/');
+    if (!response) {
+      throw new Error('An error occurred while creating the session');
+    }
+    return response;
   } catch (error) {
     if (error instanceof Error) {
       return { error: error.message };

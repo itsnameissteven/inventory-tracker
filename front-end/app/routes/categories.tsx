@@ -8,6 +8,7 @@ import { BaseForm } from '~/components/forms/BaseForm';
 import { postCategory } from 'server/postCategory';
 import { useNavigate } from 'react-router';
 import { PageHeader } from '~/components/PageHeader';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,8 +17,9 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({}: Route.LoaderArgs) {
-  let { data } = await getAll<Category>('categories');
+export async function loader({ request }: Route.LoaderArgs) {
+  await auth(request);
+  const { data } = await getAll<Category>('categories');
   return { data };
 }
 

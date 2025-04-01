@@ -4,6 +4,7 @@ import { BaseForm } from '~/components/forms/BaseForm';
 import { redirect } from 'react-router';
 import { getById } from 'server/getById';
 import { updateEntity } from 'server/updateEntity';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,8 +13,9 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  let { data } = await getById<Category>('categories', params.id);
+export async function loader({ params, request }: Route.LoaderArgs) {
+  await auth(request);
+  const { data } = await getById<Category>('categories', params.id);
   return { data };
 }
 

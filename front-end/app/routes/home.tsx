@@ -5,9 +5,9 @@ import { TableActionButton } from '~/components/TableActionButton';
 import { ItemForm } from '~/components/forms/ItemForm';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
-import { redirect, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { PageHeader } from '~/components/PageHeader';
-import { getUserToken } from '~/services/session.server';
+import { auth } from '~/services/auth.server';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,11 +17,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
-  const userId = await getUserToken(request);
-  console.log('userId', userId);
-  if (!userId) {
-    throw redirect('/login');
-  }
+  await auth(request);
   let { data: items } = await getAll<Item>('items');
   let { data: categories } = await getAll<Category>('categories');
   return { items, categories };
@@ -29,6 +25,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
+  console.log(loaderData);
   return (
     <Layout>
       <PageHeader header="Inventory Dashboard" buttonContent="Create Item">

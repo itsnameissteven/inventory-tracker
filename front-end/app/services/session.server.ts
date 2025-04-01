@@ -1,4 +1,5 @@
 import { createCookieSessionStorage, redirect } from 'react-router';
+import { setAuthToken } from 'server/axios';
 
 type User = { id: string; username: string; password: string };
 
@@ -16,11 +17,11 @@ export const sessionStorage = createCookieSessionStorage({
 export const { commitSession, destroySession } = sessionStorage;
 
 const getUserSession = async (request: Request) => {
-  return await sessionStorage.getSession(request.headers.get('Cookie'));
+  const cookie = await sessionStorage.getSession(request.headers.get('Cookie'));
+  return cookie;
 };
 
 export async function logout(request: Request) {
-  console.log('logout');
   const session = await getUserSession(request);
   return redirect('/', {
     headers: {
