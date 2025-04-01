@@ -3,10 +3,11 @@ import { Layout } from '~/components/Layout';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
 import { formatDate } from '~/utils/formatDate';
-import { VariationForm } from '~/components/VariationForm';
+import { VariationForm } from '~/components/forms/VariationForm';
 import { postVariation } from 'server/postVariation';
 import { getAll } from 'server/getAll';
 import { useNavigate } from 'react-router';
+import { PageHeader } from '~/components/PageHeader';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -34,11 +35,12 @@ export default function variations({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
   return (
     <Layout>
-      <h1 className="text-5xl font-bold">Variations</h1>
+      <PageHeader header="Variations" buttonContent="Create Variation">
+        {(closeModal) => <VariationForm onSubmitConfirm={closeModal} />}
+      </PageHeader>
       {data.length === 0 && (
-        <p>There are no variations, start adding new variations below</p>
+        <p>There are no variations, start adding new variations.</p>
       )}
-      <VariationForm />
       {data.length > 0 && (
         <>
           <h2 className="text-2xl font-bold">Variations Table</h2>

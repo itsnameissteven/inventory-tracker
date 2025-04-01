@@ -4,9 +4,10 @@ import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
 import { formatDate } from '~/utils/formatDate';
 import { getAll } from 'server/getAll';
-import { BaseForm } from '~/components/BaseForm';
+import { BaseForm } from '~/components/forms/BaseForm';
 import { postAttribute } from 'server/postAttribute';
 import { useNavigate } from 'react-router';
+import { PageHeader } from '~/components/PageHeader';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -33,11 +34,18 @@ export default function attributes({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
   return (
     <Layout>
-      <h1 className="text-5xl font-bold">Attributes</h1>
+      <PageHeader header="Attributes" buttonContent="Create Attribute">
+        {(closeModal) => (
+          <BaseForm
+            title="Create Attribute"
+            actionPath="/attributes"
+            onSubmitConfirm={closeModal}
+          />
+        )}
+      </PageHeader>
       {data.length === 0 && (
-        <p>There are no attributes, start adding new attributes below</p>
+        <p>There are no attributes, start adding new attributes</p>
       )}
-      <BaseForm title="Create Attribute" actionPath="/attributes" />
       {data.length > 0 && (
         <>
           <h2 className="text-2xl font-bold">Attributes Table</h2>

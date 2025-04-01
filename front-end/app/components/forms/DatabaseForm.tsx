@@ -13,14 +13,14 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Field } from 'types/Field';
-import { Checkbox } from './ui/checkbox';
+import { Checkbox } from '../ui/checkbox';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './ui/select';
+} from '../ui/select';
 
 type DatabaseFormProps<T extends z.ZodType<any, any>> = {
   title: string;
@@ -28,6 +28,7 @@ type DatabaseFormProps<T extends z.ZodType<any, any>> = {
   defaultValues: DefaultValues<z.TypeOf<T>> | undefined;
   fields: Field<T>[];
   onSubmit(values: z.infer<T>): Promise<void>;
+  withStyle?: boolean;
 };
 export const DatabaseForm = <T extends z.ZodType<any, any>>({
   title,
@@ -35,6 +36,7 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
   defaultValues,
   fields,
   onSubmit,
+  withStyle,
 }: DatabaseFormProps<T>) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,7 +54,7 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
   };
 
   return (
-    <div className="max-w-md mx-auto border p-8 rounded-md">
+    <div className={withStyle ? 'max-w-md mx-auto border p-8 rounded-md' : ''}>
       <h2 className="text-xl mb-5">{title}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">

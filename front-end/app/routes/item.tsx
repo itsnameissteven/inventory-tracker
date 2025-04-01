@@ -5,10 +5,11 @@ import { getItemById } from 'server/getItemById';
 import { DataTable } from '~/components/DataTable';
 import { TableActionButton } from '~/components/TableActionButton';
 import { formatDate } from '~/utils/formatDate';
-import { SkuForm } from '~/components/SkuForm';
+import { SkuForm } from '~/components/forms/SkuForm';
 import { getAll } from 'server/getAll';
 import { postSku } from 'server/postSku';
 import { useNavigate } from 'react-router';
+import { PageHeader } from '~/components/PageHeader';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -43,17 +44,19 @@ export default function item({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
   return (
     <Layout>
-      <h1 className="text-5xl font-bold">{item.name}</h1>
+      <PageHeader header={item.name} buttonContent="Create SKU">
+        {(closeModal) => (
+          <SkuForm
+            variations={variations}
+            attributes={attributes}
+            itemId={item.id}
+            onSubmitConfirm={closeModal}
+          />
+        )}
+      </PageHeader>
       <h2 className="text-2xl font-bold">Description:</h2>
       <p>{item.description}</p>
-      {item.skus.length === 0 && (
-        <p>There are no skus, start adding skus below</p>
-      )}
-      <SkuForm
-        variations={variations}
-        attributes={attributes}
-        itemId={item.id}
-      />
+      {item.skus.length === 0 && <p>There are no skus, start adding skus.</p>}
       {item.skus.length > 0 && (
         <DataTable
           title="Items SKUs"

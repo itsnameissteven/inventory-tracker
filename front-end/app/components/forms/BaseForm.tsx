@@ -13,12 +13,16 @@ type BaseFormProps = {
   defaultValues?: {
     name: string;
   };
+  isEdit?: boolean;
+  onSubmitConfirm?: () => void;
 };
 
 export const BaseForm = ({
+  isEdit,
   title,
   actionPath,
   defaultValues = { name: '' },
+  onSubmitConfirm,
 }: BaseFormProps) => {
   const submit = useSubmit();
 
@@ -31,11 +35,13 @@ export const BaseForm = ({
     },
   ];
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    return await submit(values, { method: 'POST', action: actionPath });
+    await submit(values, { method: 'POST', action: actionPath });
+    onSubmitConfirm?.();
   };
 
   return (
     <DatabaseForm
+      withStyle={isEdit}
       title={title}
       fields={fields}
       formSchema={formSchema}

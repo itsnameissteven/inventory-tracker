@@ -2,7 +2,7 @@ import type { Route } from './+types/variationEdit';
 import { Layout } from '~/components/Layout';
 import { getById } from 'server/getById';
 import { redirect } from 'react-router';
-import { VariationForm } from '~/components/VariationForm';
+import { VariationForm } from '~/components/forms/VariationForm';
 import { updateEntity } from 'server/updateEntity';
 
 export function meta({}: Route.MetaArgs) {

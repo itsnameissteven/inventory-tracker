@@ -3,7 +3,7 @@ import { Layout } from '~/components/Layout';
 import { getById } from 'server/getById';
 import { redirect } from 'react-router';
 import { updateEntity } from 'server/updateEntity';
-import { ItemForm } from '~/components/ItemForm';
+import { ItemForm } from '~/components/forms/ItemForm';
 import { getAll } from 'server/getAll';
 
 export function meta({}: Route.MetaArgs) {
