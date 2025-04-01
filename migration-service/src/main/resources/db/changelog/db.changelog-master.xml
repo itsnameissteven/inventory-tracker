@@ -144,5 +144,29 @@
         CREATE UNIQUE INDEX idx_uc_items_sku 
         ON item_skus (item_id, COALESCE(variation_id, '00000000-0000-0000-0000-000000000000'), COALESCE(attribute_id, '00000000-0000-0000-0000-000000000000'));
       </sql>
+      <createTable tableName="users">
+         <column name="id" type="uuid" defaultValueComputed="uuid_generate_v4()">
+               <constraints primaryKey="true"/>
+         </column>
+         <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+               <constraints nullable="false"/>
+         </column>
+         <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+               <constraints nullable="false"/>
+         </column>
+         <column name="username" type="varchar(50)">
+               <constraints nullable="false" unique="true"/>
+         </column>
+         <column name="password" type="varchar(255)">
+               <constraints nullable="false"/>
+         </column>
+      </createTable>
+      <!-- <insert tableName="users">
+         <column name="id" value="00000000-0000-0000-0000-000000000001" />
+         <column name="created_at" valueDate="2025-03-31T00:00:00" />
+         <column name="updated_at" valueDate="2025-03-31T00:00:00" />
+         <column name="username" value="InventoryUser" />
+         <column name="password" value="password303" />
+      </insert> -->
    </changeSet>
 </databaseChangeLog>
