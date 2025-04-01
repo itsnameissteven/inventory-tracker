@@ -16,7 +16,6 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request }: Route.LoaderArgs) {
-  await auth(request);
   const userId = await getUserToken(request);
   if (userId) {
     return redirect('/');

@@ -63,25 +63,27 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="dark min-h-screen">
-        <NavigationMenu className="pt-4 pr-4 pl-4">
-          {navItems.map((item) => (
-            <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? 'underline underline-offset-8 pl-4 pr-4'
-                  : 'pl-4 pr-4'
-              }
-              key={item.to}
-              to={item.to}
-            >
-              {item.name}
-            </NavLink>
-          ))}
+        <div className=" pt-4 pr-4 pl-4 flex justify-between w-full">
+          <NavigationMenu>
+            {navItems.map((item) => (
+              <NavLink
+                className={({ isActive }) =>
+                  isActive
+                    ? 'underline underline-offset-8 pl-4 pr-4'
+                    : 'pl-4 pr-4'
+                }
+                key={item.to}
+                to={item.to}
+              >
+                {item.name}
+              </NavLink>
+            ))}
+          </NavigationMenu>
           <form method="post">
             <input type="hidden" name="type" value="logout" />
             <Button type="submit">Logout</Button>
           </form>
-        </NavigationMenu>
+        </div>
         {children}
         <ScrollRestoration />
         <Scripts />

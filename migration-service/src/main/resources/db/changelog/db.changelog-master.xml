@@ -161,12 +161,172 @@
                <constraints nullable="false"/>
          </column>
       </createTable>
-      <!-- <insert tableName="users">
-         <column name="id" value="00000000-0000-0000-0000-000000000001" />
-         <column name="created_at" valueDate="2025-03-31T00:00:00" />
-         <column name="updated_at" valueDate="2025-03-31T00:00:00" />
-         <column name="username" value="InventoryUser" />
-         <column name="password" value="password303" />
-      </insert> -->
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Men's Shirts"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Women's Dresses"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Casual Wear"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Formal Wear"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Outerwear"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Sportswear"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Denim &amp; Jeans"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Lounge Wear"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Sleepwear"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Accessories"/>
+        </insert>
+         <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="XS"/>
+            <column name="display_name" value="Extra Small"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="S"/>
+            <column name="display_name" value="Small"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="M"/>
+            <column name="display_name" value="Medium"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="L"/>
+            <column name="display_name" value="Large"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="XL"/>
+            <column name="display_name" value="Extra Large"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="XXL"/>
+            <column name="display_name" value="Double Extra Large"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="XXXL"/>
+            <column name="display_name" value="Triple Extra Large"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="One Size"/>
+            <column name="display_name" value="One Size Fits All"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Petite"/>
+            <column name="display_name" value="Petite Size"/>
+        </insert>
+        <insert tableName="variations">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Tall"/>
+            <column name="display_name" value="Tall Size"/>
+        </insert>
+        <insert tableName="attributes">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Red"/>
+        </insert>
+        <insert tableName="attributes">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Blue"/>
+        </insert>
+        <insert tableName="attributes">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Green"/>
+        </insert>
+        <insert tableName="attributes">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Black"/>
+        </insert>
+        <insert tableName="attributes">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="White"/>
+        </insert>
+        
+        <!-- Insert Items -->
+        <insert tableName="items">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Classic T-Shirt"/>
+            <column name="description" value="A comfortable and stylish classic t-shirt, perfect for everyday wear."/>
+        </insert>
+        <insert tableName="items">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Slim Fit Jeans"/>
+            <column name="description" value="Trendy slim fit jeans made from high-quality denim."/>
+        </insert>
+        <insert tableName="items">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Hooded Sweatshirt"/>
+            <column name="description" value="A warm and cozy hoodie, perfect for layering in cooler weather."/>
+        </insert>
+        <insert tableName="items">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Polo Shirt"/>
+            <column name="description" value="A smart-casual polo shirt, ideal for both casual and semi-formal occasions."/>
+        </insert>
+        <insert tableName="items">
+            <column name="created_at" value="2025-03-31T00:00:00"/>
+            <column name="updated_at" value="2025-03-31T00:00:00"/>
+            <column name="name" value="Chino Pants"/>
+            <column name="description" value="Versatile chino pants, great for both work and casual outings."/>
+        </insert>
    </changeSet>
 </databaseChangeLog>

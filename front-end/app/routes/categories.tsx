@@ -45,49 +45,42 @@ export default function categories({ loaderData }: Route.ComponentProps) {
           />
         )}
       </PageHeader>
-      {data.length === 0 && (
-        <p>There are no categories, start adding new categories below</p>
-      )}
-      {/* <BaseForm title={'Create Category'} actionPath={'/categories'} /> */}
-      {data.length > 0 && (
-        <>
-          <h2 className="text-2xl font-bold">Categories Table</h2>
-          <DataTable
-            title="Categories"
-            columns={[
-              {
-                header: 'Name',
-                accessKey: 'name',
-              },
-              {
-                header: 'Created At',
-                accessKey: 'createdAt',
-                render: (data) => formatDate(data.createdAt),
-              },
-              {
-                header: 'Updated At',
-                accessKey: 'updatedAt',
-                render: (data) => formatDate(data.updatedAt),
-              },
-              {
-                header: '',
-                accessKey: 'id',
-                render: (data) => (
-                  <TableActionButton
-                    actions={[
-                      {
-                        label: 'Edit Category',
-                        onClick: () => navigate(`/categories/${data.id}/edit`),
-                      },
-                    ]}
-                  />
-                ),
-              },
-            ]}
-            data={data}
-          />
-        </>
-      )}
+      <DataTable
+        noDataMessage="No categories found, start adding categories."
+        header="Categories Table"
+        title="Categories"
+        columns={[
+          {
+            header: 'Name',
+            accessKey: 'name',
+          },
+          {
+            header: 'Created At',
+            accessKey: 'createdAt',
+            render: (data) => formatDate(data.createdAt),
+          },
+          {
+            header: 'Updated At',
+            accessKey: 'updatedAt',
+            render: (data) => formatDate(data.updatedAt),
+          },
+          {
+            header: '',
+            accessKey: 'id',
+            render: (data) => (
+              <TableActionButton
+                actions={[
+                  {
+                    label: 'Edit Category',
+                    onClick: () => navigate(`/categories/${data.id}/edit`),
+                  },
+                ]}
+              />
+            ),
+          },
+        ]}
+        data={data}
+      />
     </Layout>
   );
 }

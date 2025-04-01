@@ -36,8 +36,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           />
         )}
       </PageHeader>
-      <h2 className="text-2xl font-bold">Items Table</h2>
       <DataTable
+        noDataMessage="No items found, start adding items."
+        header="Items Table"
         title="Items"
         columns={[
           { header: 'Name', accessKey: 'name' },

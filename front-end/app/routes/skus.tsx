@@ -25,8 +25,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <Layout>
       <h1 className="text-5xl font-bold mb-10">Item SKUs</h1>
-      <h2 className="text-2xl font-bold">Item Skus Table</h2>
       <DataTable
+        noDataMessage="No SKUs found, add a sku to an item and it will appear here."
+        header="SKUs Table"
         title="SKUs"
         columns={[
           { header: 'Price', accessKey: 'price' },

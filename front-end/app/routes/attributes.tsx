@@ -45,49 +45,42 @@ export default function attributes({ loaderData }: Route.ComponentProps) {
           />
         )}
       </PageHeader>
-      {data.length === 0 && (
-        <p>There are no attributes, start adding new attributes</p>
-      )}
-      {data.length > 0 && (
-        <>
-          <h2 className="text-2xl font-bold">Attributes Table</h2>
-          <DataTable
-            title="Attributes"
-            columns={[
-              {
-                header: 'Name',
-                accessKey: 'name',
-              },
-              {
-                header: 'Created At',
-                accessKey: 'createdAt',
-                render: (data) => formatDate(data.createdAt),
-              },
-              {
-                header: 'Updated At',
-                accessKey: 'updatedAt',
-                render: (data) => formatDate(data.updatedAt),
-              },
-              {
-                header: '',
-                accessKey: 'id',
-                render: (data) => (
-                  <TableActionButton
-                    actions={[
-                      {
-                        label: 'Edit Attribute',
-                        onClick: () =>
-                          navigate('/attributes/' + data.id + '/edit'),
-                      },
-                    ]}
-                  />
-                ),
-              },
-            ]}
-            data={data}
-          />
-        </>
-      )}
+      <DataTable
+        noDataMessage="No attributes found, start adding attributes."
+        header="Attributes Table"
+        title="Attributes"
+        columns={[
+          {
+            header: 'Name',
+            accessKey: 'name',
+          },
+          {
+            header: 'Created At',
+            accessKey: 'createdAt',
+            render: (data) => formatDate(data.createdAt),
+          },
+          {
+            header: 'Updated At',
+            accessKey: 'updatedAt',
+            render: (data) => formatDate(data.updatedAt),
+          },
+          {
+            header: '',
+            accessKey: 'id',
+            render: (data) => (
+              <TableActionButton
+                actions={[
+                  {
+                    label: 'Edit Attribute',
+                    onClick: () => navigate('/attributes/' + data.id + '/edit'),
+                  },
+                ]}
+              />
+            ),
+          },
+        ]}
+        data={data}
+      />
     </Layout>
   );
 }
