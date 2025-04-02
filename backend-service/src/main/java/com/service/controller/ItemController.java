@@ -53,19 +53,17 @@ public class ItemController extends BaseController<Item, ItemRepository> {
     System.out.println("ItemRelation: " + itemRelation.getCategoryIds());
       try {
           Item item = new Item();
-          item.setName(itemRelation.getName());
-          item.setDescription(itemRelation.getDescription());
-
           List<Category> categories = categoryRepository.findAllById(itemRelation.getCategoryIds());
-          
-          item.setCategories(categories);
-          System.out.println("Item to be saved: " + item);
+          item
+            .setName(itemRelation.getName())
+            .setDescription(itemRelation.getDescription())
+            .setCategories(categories);
+
           Item savedItem = itemRepository.save(item);
-          return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
+          return ResponseEntity.status(HttpStatus.OK).body(savedItem);
       } catch (Exception e) {
-          System.out.println("Error: " + e);
           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                  .body("{\"error\": \"An unexpected error occurred.\"}");
+                  .body("{\"error\": e.getRootCause().getMessage()}");
       }
   }
 }

@@ -5,7 +5,6 @@ public class LoginUserDto {
     
     private String password;
     
-    // getters and setters here...
     public String getUsername() {
         return username;
     }

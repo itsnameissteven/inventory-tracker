@@ -34,7 +34,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           { header: 'Stock', accessKey: 'stock' },
           {
             header: 'Item Name',
-            accessKey: 'itemId',
+            accessKey: 'item',
+            render: (data) => data.item?.name || 'N/A',
           },
           {
             header: 'Variation',

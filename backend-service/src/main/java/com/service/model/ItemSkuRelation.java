@@ -40,24 +40,29 @@ public class ItemSkuRelation {
         return attribute_id;
     }
 
-    public void setPrice(Double price) {
+    public ItemSkuRelation setPrice(Double price) {
         this.price = price;
+        return this;
     }
 
-    public void setStock(Integer stock) {
+    public ItemSkuRelation setStock(Integer stock) {
         this.stock = stock;
+        return this;
     }
 
-    public void setItemId(UUID item_id) {
+    public ItemSkuRelation setItemId(UUID item_id) {
         this.item_id = item_id;
+        return this;
     }
 
-    public void setVariationId(UUID variation_id) {
+    public ItemSkuRelation setVariationId(UUID variation_id) {
         this.variation_id = variation_id;
+        return this;
     }
 
-    public void setAttributeId(UUID attribute_id) {
+    public ItemSkuRelation setAttributeId(UUID attribute_id) {
         this.attribute_id = attribute_id;
+        return this;
     }
   
 }

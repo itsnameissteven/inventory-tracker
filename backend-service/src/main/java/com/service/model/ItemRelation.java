@@ -13,24 +13,22 @@ public class ItemRelation {
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public List<UUID> getCategoryIds() {
         return categoryIds;
     }
-
-    public void setCategoryIds(List<UUID> categoryIds) {
+    public ItemRelation setName(String name) {
+        this.name = name;
+        return this;
+    }
+    public ItemRelation setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+    public ItemRelation setCategoryIds(List<UUID> categoryIds) {
         this.categoryIds = categoryIds;
+        return this;
     }
 }

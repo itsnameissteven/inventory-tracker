@@ -1,4 +1,4 @@
-import { Form, redirect, useSubmit, type MetaFunction } from 'react-router';
+import { redirect, useSubmit, type MetaFunction } from 'react-router';
 import type { Route } from './+types/login';
 import { createUserSession, getUserToken } from '~/services/session.server';
 import { postLogin } from 'server/postLogin';
@@ -6,7 +6,6 @@ import { Layout } from '~/components/Layout';
 import { z } from 'zod';
 import { DatabaseForm } from '~/components/forms/DatabaseForm';
 import { Field } from 'types/Field';
-import { auth } from '~/services/auth.server';
 
 export const meta: MetaFunction = () => {
   return [
@@ -33,7 +32,6 @@ export async function action({ request }: Route.ActionArgs) {
       throw new Error('Username and password are required');
     }
     const { data } = await postLogin({ username, password });
-    // Create a session
     response = await createUserSession({
       request,
       userToken: data.token,
@@ -43,10 +41,8 @@ export async function action({ request }: Route.ActionArgs) {
       throw new Error('An error occurred while creating the session');
     }
     return response;
-  } catch (error) {
-    if (error instanceof Error) {
-      return { error: error.message };
-    }
+  } catch (error: any) {
+    return { error: error.message };
   }
 }
 
@@ -55,7 +51,8 @@ const formSchema = z.object({
   password: z.string().min(2).max(50),
 });
 
-export default function Login({}: Route.ComponentProps) {
+export default function Login({ actionData }: Route.ComponentProps) {
+  const res = actionData;
   const submit = useSubmit();
   const fields: Field<typeof formSchema>[] = [
     {
@@ -77,6 +74,7 @@ export default function Login({}: Route.ComponentProps) {
   return (
     <Layout>
       <DatabaseForm
+        error={res?.error}
         withStyle={true}
         title="Login"
         fields={fields}

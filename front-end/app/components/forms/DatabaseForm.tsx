@@ -29,6 +29,7 @@ type DatabaseFormProps<T extends z.ZodType<any, any>> = {
   fields: Field<T>[];
   onSubmit(values: z.infer<T>): Promise<void>;
   withStyle?: boolean;
+  error?: string;
 };
 export const DatabaseForm = <T extends z.ZodType<any, any>>({
   title,
@@ -37,6 +38,7 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
   fields,
   onSubmit,
   withStyle,
+  error,
 }: DatabaseFormProps<T>) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,7 +47,7 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await onSubmit(values);
+      const res = await onSubmit(values);
       form.reset(defaultValues);
     } catch (e) {
       console.log('Error submitting form', e);
@@ -188,6 +190,7 @@ export const DatabaseForm = <T extends z.ZodType<any, any>>({
           <Button type="submit">Submit</Button>
         </form>
       </Form>
+      <div className="text-red-500">{error}</div>
     </div>
   );
 };
