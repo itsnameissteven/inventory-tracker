@@ -328,5 +328,11 @@
             <column name="name" value="Chino Pants"/>
             <column name="description" value="Versatile chino pants, great for both work and casual outings."/>
         </insert>
+        <insert tableName="users">
+            <column name="created_at" value="2025-04-01T00:00:00"/>
+            <column name="updated_at" value="2025-04-01T00:00:00"/>
+            <column name="username" value="InventoryUser"/>
+            <column name="password" value="$2a$10$MbTKzwdsEqeEO5NdBS5RqOki/X86vZde1KUiWHwMlsozkJUi6FQ4W"/>
+        </insert>
    </changeSet>
 </databaseChangeLog>
