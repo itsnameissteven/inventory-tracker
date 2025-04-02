@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class BaseModel {
+public abstract class BaseModel<T extends BaseModel<T>> {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private UUID id;
@@ -34,11 +34,15 @@ public abstract class BaseModel {
     return updated_at;
   }
 
-  public void setId(UUID id) {
-    this.id = id;
+  @SuppressWarnings("unchecked")
+  public T setId(UUID id) {
+      this.id = id;
+      return (T) this;
   }
 
-  public void setUpdatedAt() {
-    this.updated_at = LocalDateTime.now();
+  @SuppressWarnings("unchecked")
+  public T setUpdatedAt() {
+      this.updated_at = LocalDateTime.now();
+      return (T) this;
   }
 }

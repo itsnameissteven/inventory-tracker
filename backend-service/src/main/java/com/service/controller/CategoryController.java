@@ -25,7 +25,8 @@ public class CategoryController  extends BaseController<Category, CategoryReposi
   @PutMapping("/{id}")
   public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody Category category) {
     try {
-      Category existingCategory = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+      Category existingCategory = categoryRepository
+        .findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
       existingCategory.setName(category.getName());
       categoryRepository.save(existingCategory);
       return ResponseEntity.status(HttpStatus.OK).body(existingCategory);

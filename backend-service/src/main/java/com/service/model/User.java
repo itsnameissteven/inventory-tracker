@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Table(name = "users")
 @Entity
-public class User extends BaseModel implements UserDetails {
+public class User extends BaseModel<User> implements UserDetails {
   @Column(unique = true, nullable=false)
   private String username;
 

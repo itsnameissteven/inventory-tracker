@@ -1,7 +1,9 @@
 package com.service.model;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -10,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "items")
-public class Item extends BaseModel {
+public class Item extends BaseModel<Item> {
   private String name;
   private String description;
   @OneToMany(mappedBy = "item_id")
@@ -22,7 +24,7 @@ public class Item extends BaseModel {
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
   private List<Category> categories;  
-  @OneToMany(mappedBy = "item_id")
+  @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<ItemSku> skus; 
   @ManyToMany
     @JoinTable(
@@ -42,8 +44,9 @@ public class Item extends BaseModel {
   public Item() {
   }
 
-  public Item(String name) {
+  public Item(String name, String description) {
     this.name = name;
+    this.description = description;
   }
   public String getName() {
     return name;
@@ -66,13 +69,16 @@ public class Item extends BaseModel {
   public List<Attribute> getAttributes() {
     return attributes;
   }
-  public void setName(String name) {
+  public Item setName(String name) {
     this.name = name;
+    return this;
   }
-  public void setDescription(String description) {
+  public Item setDescription(String description) {
     this.description = description;
+    return this;
   }
-  public void setCategories(List<Category> categories) {
+  public Item setCategories(List<Category> categories) {
     this.categories = categories;
+    return this;
   }
 }

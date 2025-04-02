@@ -25,7 +25,6 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
-  console.log(loaderData);
   return (
     <Layout>
       <PageHeader header="Inventory Dashboard" buttonContent="Create Item">

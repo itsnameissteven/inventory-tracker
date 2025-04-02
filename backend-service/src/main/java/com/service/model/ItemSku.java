@@ -1,7 +1,5 @@
 package com.service.model;
 
-import java.util.UUID;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -10,10 +8,12 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "item_skus")
-public class ItemSku extends BaseModel{
+public class ItemSku extends BaseModel<ItemSku> {
   private Double price;
   private Integer stock;
-  private UUID item_id;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "item_id", nullable = false)
+  private ItemDto item;
 
   @ManyToOne(fetch = FetchType.EAGER) 
   @JoinColumn(name = "variation_id", nullable = true)
@@ -25,10 +25,10 @@ public class ItemSku extends BaseModel{
 
   public ItemSku() {
   }
-  public ItemSku(Double price, Integer stock, UUID item_id, Variation variation, Attribute attribute) {
+  public ItemSku(Double price, Integer stock, ItemDto item, Variation variation, Attribute attribute) {
     this.price = price;
     this.stock = stock;
-    this.item_id = item_id;
+    this.item = item;
     this.variation = variation;
     this.attribute = attribute;
   }
@@ -38,8 +38,8 @@ public class ItemSku extends BaseModel{
   public Integer getStock() {
     return stock;
   }
-  public UUID getItemId() {
-    return item_id;
+  public ItemDto getItem() {
+    return item;
   }
   public Variation getVariation() {
     return variation;
@@ -48,19 +48,24 @@ public class ItemSku extends BaseModel{
     return attribute;
   }
   
-  public void setPrice(Double price) {
+  public ItemSku setPrice(Double price) {
     this.price = price;
+    return this;
   }
-  public void setStock(Integer stock) {
+  public ItemSku setStock(Integer stock) {
     this.stock = stock;
+    return this;
   }
-  public void setItemId(UUID item_id) {
-    this.item_id = item_id;
+  public ItemSku setItem(ItemDto item) {
+    this.item = item;
+    return this;
   }
-  public void setVariation(Variation variation) {
+  public ItemSku setVariation(Variation variation) {
     this.variation = variation;
+    return this;
   }
-  public void setAttribute(Attribute attribute) {
+  public ItemSku setAttribute(Attribute attribute) {
     this.attribute = attribute;
+    return this;
   }
 }

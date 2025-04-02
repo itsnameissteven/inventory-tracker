@@ -42,19 +42,6 @@ public class SecurityConfiguration {
             )
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        // http.csrf()
-        //         .disable()
-        //         .authorizeHttpRequests()
-        //         .requestMatchers("/auth/**")
-        //         .permitAll()
-        //         .anyRequest()
-        //         .authenticated()
-        //         .and()
-        //         .sessionManagement()
-        //         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        //         .and()
-        //         .authenticationProvider(authenticationProvider)
-        //         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

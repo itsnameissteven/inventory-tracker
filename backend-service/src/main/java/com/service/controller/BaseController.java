@@ -18,23 +18,30 @@ public abstract class BaseController<T, R extends JpaRepository<T, UUID>> {
   private R repository;
 
   @GetMapping
-  public ResponseEntity<List<T>> getAll() {
-    System.out.println("Get all items");
-    List<T> items = repository.findAll();
-    return ResponseEntity.ok(items);
+  public ResponseEntity<?> getAll() {
+    try {
+      List<T> items = repository.findAll();
+      return ResponseEntity.status(HttpStatus.OK).body(items);
+    } catch (DataIntegrityViolationException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("{\"error\": e.getRootCause().getMessage()}");
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("{\"error\": e.getRootCause().getMessage()}");
+    }
   }
 
   @PostMapping
   public ResponseEntity<?> add(@RequestBody T item) {  
     try {
             T savedItem = repository.save(item);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
+            return ResponseEntity.status(HttpStatus.OK).body(savedItem);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"error\": e.getRootCause().getMessage()}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("{\"error\": \"An unexpected error occurred.\"}");
+                    .body("{\"error\": e.getRootCause().getMessage()}");
         }
   }
 

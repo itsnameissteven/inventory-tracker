@@ -79,7 +79,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </NavLink>
             ))}
           </NavigationMenu>
-          <form method="post">
+          <form method="post" action="/">
             <input type="hidden" name="type" value="logout" />
             <Button type="submit">Logout</Button>
           </form>

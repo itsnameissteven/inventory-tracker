@@ -2,9 +2,7 @@ type Sku = {
   id: string;
   createdAt: string;
   updatedAt: string;
-  itemId: string;
-  variationId: string | null;
-  attributeId: string | null;
+  item: Item;
   variation: Variation | null;
   attribute: Attribute | null;
   price: number;

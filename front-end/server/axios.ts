@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getUserToken } from '~/services/session.server';
 
 const api = axios.create({
   baseURL: process.env.DATABASE_URL || 'http://localhost:8080/',
@@ -8,6 +7,19 @@ const api = axios.create({
   },
   withCredentials: true,
 });
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    return Promise.reject({
+      message: error.response?.data?.message || error.message,
+      status: error.response?.status,
+    });
+  }
+);
+
 export const setAuthToken = (token: string | undefined) => {
   if (token) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;

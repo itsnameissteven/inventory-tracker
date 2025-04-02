@@ -26,9 +26,13 @@ public class VariationController extends BaseController<Variation, VariationRepo
   @PutMapping("/{id}")
   public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody Variation variation) {
     try {
-      Variation existingVariation = variationRepository.findById(id).orElseThrow(() -> new RuntimeException("Variation not found"));
-      existingVariation.setName(variation.getName());
-      existingVariation.setDisplayName(variation.getDisplayName());
+      Variation existingVariation = variationRepository
+        .findById(id).orElseThrow(() -> new RuntimeException("Variation not found"));
+
+      existingVariation
+        .setName(variation.getName())
+        .setDisplayName(variation.getDisplayName());
+
       variationRepository.save(existingVariation);
       return ResponseEntity.status(HttpStatus.OK).body(existingVariation);
     } catch (DataIntegrityViolationException e) {
@@ -36,7 +40,7 @@ public class VariationController extends BaseController<Variation, VariationRepo
           .body("{\"error\": e.getRootCause().getMessage()}");
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body("{\"error\": \"An unexpected error occurred.\"}");
+          .body("{\"error\": e.getRootCause().getMessage()}");
     }
   }
 }

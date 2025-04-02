@@ -25,7 +25,8 @@ public class AttributeController extends BaseController<Attribute, AttributeRepo
   @PutMapping("/{id}")
   public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody Attribute attribute) {
     try {
-      Attribute existingAttribute = attributeRepository.findById(id).orElseThrow(() -> new RuntimeException("Attribute not found"));
+      Attribute existingAttribute = attributeRepository
+        .findById(id).orElseThrow(() -> new RuntimeException("Attribute not found"));
       existingAttribute.setName(attribute.getName());
       attributeRepository.save(existingAttribute);
       return ResponseEntity.status(HttpStatus.OK).body(existingAttribute);
